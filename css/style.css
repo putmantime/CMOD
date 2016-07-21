@@ -1,0 +1,92 @@
+h1, h2 {
+    margin-left: 15px;
+    margin-right: 15px;
+
+}
+
+
+#container {
+    height: auto;
+    text-align: justify;
+    /* just for demo */
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-top: 15px;
+
+}
+
+.box1, .box2, .box3 {
+    width: 33%;
+    height: 600px;
+    vertical-align: top;
+    display: inline-block;
+    *display: inline;
+    background: whitesmoke;
+    border: solid darkgrey 2px;
+    border-radius: 10px;
+
+}
+
+.stretch {
+    width: 100%;
+    display: inline-block;
+    font-size: 0;
+    line-height: 0
+
+}
+
+.main_container {
+    margin-left: 15px;
+    margin-right: 15px;
+    border-radius: 10px;
+
+}
+
+.main_nav {
+    margin-top: 15px;
+    margin-bottom: 5px;
+    border-radius: 10px;
+    border: solid black 2px;
+    max-width: 100%;
+    background-color: #385d94;
+    color: white;
+}
+
+iframe {
+    width: 100%;
+    height: 400px;
+}
+
+.orgData {
+    clear: both;
+    margin-top: 40px;
+    margin-left: 40px;
+}
+
+.geneData {
+    clear: both;
+    margin-top: 40px;
+    margin-left: 40px;
+}
+
+.proteinData {
+    clear: both;
+    margin-top: 40px;
+    margin-left: 40px;
+}
+
+.boxheader {
+    background-color: #b3d0ff;
+    padding-bottom: 15px;
+    padding-top: 15px;
+    border: solid darkgray 1px;
+   border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    color: #505050;
+}
+
+.myforms{
+    margin-top: 8px;
+
+
+}
