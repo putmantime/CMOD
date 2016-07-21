@@ -1,0 +1,86 @@
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>CMOD</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link rel='stylesheet' type='text/css' href='css/jquery-ui.theme.css'/>
+    <link rel='stylesheet' type='text/css' href='css/jquery-ui.structure.css'/>
+    <link rel='stylesheet' type='text/css' href='css/jquery-ui.css'/>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+
+</head>
+<body style="background-color: #E5E8E8">
+<div class="main_container">
+    <div>
+        <div class="main_nav">
+            <h1>Centralized Model Organism Database for Microbes</h1>
+        </div>
+        <div style="background-color: whitesmoke" class="jumbotron">
+            <div id="jbrowse">
+
+            </div>
+        </div>
+    </div>
+</div>
+<div id="container">
+    <div class="box1">
+        <div class="boxheader" style="overflow:hidden">
+        <h2 style="float:left">
+            Organism
+        </h2>
+        <div class="ui-widget myforms" style="float:left">
+            <form class="navbar-form navbar-left" role="search">
+                <label for="organisms"></label>
+
+                <div class="form-group">
+                    <input id=organisms type="text" name="orgFormItem" class="form-control">
+                </div>
+                <button id="button1" type="submit" class="btn btn-default">
+                    Submit
+                </button>
+            </form>
+        </div>
+            </div>
+        <div class="orgData"></div>
+    </div>
+    <div class="box2">
+        <div class="boxheader" style="overflow:hidden">
+        <h2 style="float:left">
+            Gene
+        </h2>
+        <div class="ui-widget myforms" style="float:left">
+            <form class="navbar-form navbar-left" role="search">
+                <label for="geneac"></label>
+
+                <div class="form-group">
+                    <input id="geneac" type="text" name="geneFormItem" class="form-control">
+                </div>
+                <button id="button2" type="submit" class="btn btn-default">
+                    Submit
+                </button>
+            </form>
+        </div>
+            </div>
+        <div class="geneData"></div>
+    </div>
+    <div class="box3">
+        <div class="boxheader">
+        <h2>
+            Gene Product
+        </h2>
+            </div>
+        <div class="proteinData"></div>
+    </div>
+    <span class="stretch"></span>
+</div>
+
+
+</body>
+<script type="text/javascript" src="script.js"></script>
+</html>
