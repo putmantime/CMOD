@@ -46,7 +46,7 @@ $(document).ready(function () {
 
         var defaultCoords = "&loc=" + current_taxid[2] + ":" + "100000..200000&tracks=genes_canvas_mod";
         jbrowse_url = "JBrowse-1.12.1-dev/index.html?data=sparql_data/sparql_data_" + current_taxid[0];
-        $('#jbrowse').html("<span><iframe src=" + jbrowse_url + defaultCoords +  "></iframe> </span>");
+        $('#jbrowse').html("<span><iframe src=" + jbrowse_url + defaultCoords +  ">invisible words</iframe> </span>");
 
 
         var tid = current_taxid[0].trim();
