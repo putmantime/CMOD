@@ -17,13 +17,14 @@ h1, h2 {
 
 .box1, .box2, .box3 {
     width: 33%;
-    height: 600px;
+    height: 700px;
     vertical-align: top;
     display: inline-block;
     *display: inline;
     background: whitesmoke;
     border: solid darkgrey 2px;
     border-radius: 10px;
+    padding-bottom: 30px;
 
 }
 
@@ -46,7 +47,7 @@ h1, h2 {
     margin-top: 15px;
     margin-bottom: 5px;
     border-radius: 10px;
-    border: solid black 2px;
+    border: solid darkgray 2px;
     max-width: 100%;
     background-color: #385d94;
     color: white;
@@ -88,5 +89,25 @@ iframe {
 .myforms{
     margin-top: 8px;
 
+
+}
+
+.orgData{
+    color: #505050;
+}
+.geneData{
+    color: #505050;
+}
+.proteinDataData{
+    color: #505050;
+}
+
+span{
+    font-size: 20px;
+    border-bottom: solid darkgray 2px;
+}
+
+#wdlogo{
+    max-height: 100px;
 
 }
