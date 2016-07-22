@@ -81,7 +81,8 @@ iframe {
     padding-bottom: 15px;
     padding-top: 15px;
     border: solid darkgray 1px;
-   border-top-right-radius: 10px;
+   height: 120px;
+    border-top-right-radius: 10px;
     border-top-left-radius: 10px;
     color: #505050;
 }
@@ -102,12 +103,29 @@ iframe {
     color: #505050;
 }
 
-span{
+.data{
     font-size: 20px;
     border-bottom: solid darkgray 2px;
 }
 
-#wdlogo{
-    max-height: 100px;
+#wdlogo1{
+    max-height:60px;
 
+}
+
+#wdlogo2{
+    max-height:60px;
+
+}
+#wdlogo3{
+    max-height:60px;
+
+}
+
+.wdbutton{
+    border: solid darkgray 2px;
+    border-radius: 10px;
+    background-color: whitesmoke;
+    margin-right: 15px;
+    float: right;
 }
