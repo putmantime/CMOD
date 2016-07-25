@@ -6,6 +6,7 @@ h2{
 .allborders {
     border: solid darkgray 3px;
     border-radius: 10px;
+    overflow: hidden;
 }
 
 
@@ -67,7 +68,7 @@ iframe {
 .boxheader {
     background-color: #b3d0ff;
     border-bottom: solid darkgray 2px;
-    min-height: 140px;
+    min-height: 150px;
     border-top-right-radius: 6px;
     border-top-left-radius: 6px;
     color: #505050;
@@ -84,6 +85,7 @@ iframe {
     font-size: 20px;
     color: #505050;
     padding: 15px;
+
 
 }
 
@@ -127,4 +129,9 @@ iframe {
 .scroll{
     height: 350px;
     overflow: auto;
+}
+
+.boxhead{
+    min-height: 80px;
+
 }

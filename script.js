@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    console.log("hello world");
+    $('[data-toggle="tooltip"]').tooltip();
     var availableTags = [];
     var taxids = {};
     var jbrowse_url;
@@ -40,17 +40,17 @@ $(document).ready(function () {
         var current_taxid = taxids[organism];
         var orgqid = current_taxid[1].split('/');
         $("div.orgData").html("<span><div class=\"dataul\"> <h3>Organism Name:</h3>" + current_taxid[3] + "</div></span>" +
-                              "<span><div class=\"dataul\"> <h3>NCBI Taxonomy ID:</h3>" + "<a href=https://www.ncbi.nlm.nih.gov/taxonomy/" + current_taxid[0] + ">" + current_taxid[0] + "</a>" + "</div></span>" +
-                              "<span><div class=\"dataul\"> <h3>NCBI RegSeq Accession:</h3>" + "<a href=http://www.ncbi.nlm.nih.gov/nuccore/" + current_taxid[2] + ">" + current_taxid[2] + "</a>" + "</div></span>" +
-                              "<span><div class=\"dataul\"> <h3>Wikidata Item ID:</h3>" + "<a href=" + current_taxid[1] + ">" + orgqid.slice(-1)[0] + "</a>" + "</div></span>"
+            "<span><div class=\"dataul\"> <h3>NCBI Taxonomy ID:</h3>" + "<a href=https://www.ncbi.nlm.nih.gov/taxonomy/" + current_taxid[0] + ">" + current_taxid[0] + "</a>" + "</div></span>" +
+            "<span><div class=\"dataul\"> <h3>NCBI RegSeq Accession:</h3>" + "<a href=http://www.ncbi.nlm.nih.gov/nuccore/" + current_taxid[2] + ">" + current_taxid[2] + "</a>" + "</div></span>" +
+            "<span><div class=\"dataul\"> <h3>Wikidata Item ID:</h3>" + "<a href=" + current_taxid[1] + ">" + orgqid.slice(-1)[0] + "</a>" + "</div></span>"
         );
+        $("#orgbut").html("<button data-toggle=\"tooltip\" title=\"Go to the Wikidata page for the microbe " + current_taxid[3] + "\"" + "id=\"wdorgbut\" class=\"wdbutton btn btn-default\"><img id=\"wdlogo1\" src=\"img/GeneWikidata-logo-en.png\"></button>");
 
 
         $("#orgform").val("");
-         $('#wdorgbut').off("click").click(function () {
-            $(this).html("<a id=\"orgpop\" href=" + current_taxid[1] + "> <img id=\"wdlogo1\" src=\"img/GeneWikidata-logo-en.png\"></a>");
+        $('#wdorgbut').off("click").click(function () {
+            $(this).html("<a href=" + current_taxid[1] + "> <img id=\"wdlogo1\" src=\"img/GeneWikidata-logo-en.png\"></a>");
         });
-
 
 
         var defaultCoords = "&menu=0&loc=" + current_taxid[2] + ":" + "100000..200000&tracks=genes_canvas_mod";
@@ -119,8 +119,12 @@ $(document).ready(function () {
                                 "<span><div class=\"dataul\">  <h3>Genome End:</h3>" + genes[i]['genomicend']['value'] + "</div></span>" +
                                 "<span><div class=\"dataul\">  <h3>Wikidata Item ID:</h3>" + "<a href=" + genes[i]['gene']['value'] + ">" + geneqid.slice(-1)[0] + "</a>" + "</div></span>"
                             );
+                            $("#genebut").html("<button data-toggle=\"tooltip\" title=\"Go to the Wikidata page for the gene " + genes[i]['geneLabel']['value'] + "\"" + "id=\"wdgenebut\" class=\"wdbutton btn btn-default\"><img id=\"wdlogo2\" src=\"img/GeneWikidata-logo-en.png\"></button>");
 
-                            $('#wdgenebut').html("<a href=" + genes[i]['gene']['value'] + "> <img id=\"wdlogo2\" src=\"img/GeneWikidata-logo-en.png\"></a>");
+
+                            $('#wdgenebut').off("click").click(function () {
+                                $(this).html("<a href=" + genes[i]['gene']['value'] + "> <img id=\"wdlogo2\" src=\"img/GeneWikidata-logo-en.png\"></a>");
+                            });
                             $('#jbrowse').html("<span><iframe src=" + jbrowse_url + coords + "></iframe> </span>");
 
                             var protqid = genes[i]['protein']['value'].split('/');
@@ -130,7 +134,10 @@ $(document).ready(function () {
                                 "<span><div class=\"dataul\"> <h3>RefSeq Protein ID:</h3>" + "<a href=https://www.ncbi.nlm.nih.gov/protein/" + genes[i]['refseqProtein']['value'] + ">" + genes[i]['refseqProtein']['value'] + "</a>" + "</div></span>" +
                                 "<span><div class=\"dataul\"> <h3>Wikidata Item ID:</h3>" + "<a href=" + genes[i]['protein']['value'] + ">" + protqid.slice(-1)[0] + "</a>" + "</div></span>"
                             );
-                            $('#wdprotbut').html("<a href=" + genes[i]['protein']['value'] + "> <img id=\"wdlogo3\" src=\"img/GeneWikidata-logo-en.png\"></a>");
+                            $("#protbut").html("<button data-toggle=\"tooltip\" title=\"Go to the Wikidata page for the protein " + genes[i]['proteinLabel']['value'] + "\"" + "id=\"wdprotbut\" class=\"wdbutton btn btn-default\"><img id=\"wdlogo3\" src=\"img/GeneWikidata-logo-en.png\"></button>");
+                            $('#wdprotbut').off("click").click(function () {
+                                $(this).html("<a href=" + genes[i]['protein']['value'] + "> <img id=\"wdlogo3\" src=\"img/GeneWikidata-logo-en.png\"></a>");
+                            });
                         }
 
 
