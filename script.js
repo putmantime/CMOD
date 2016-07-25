@@ -44,6 +44,8 @@ $(document).ready(function () {
                               "<span><div class=\"dataul\"> <h3>NCBI RegSeq Accession:</h3>" + "<a href=http://www.ncbi.nlm.nih.gov/nuccore/" + current_taxid[2] + ">" + current_taxid[2] + "</a>" + "</div></span>" +
                               "<span><div class=\"dataul\"> <h3>Wikidata Item ID:</h3>" + "<a href=" + current_taxid[1] + ">" + orgqid.slice(-1)[0] + "</a>" + "</div></span>"
         );
+
+
         $("#orgform").val("");
          $('#wdorgbut').off("click").click(function () {
             $(this).html("<a id=\"orgpop\" href=" + current_taxid[1] + "> <img id=\"wdlogo1\" src=\"img/GeneWikidata-logo-en.png\"></a>");
@@ -128,7 +130,7 @@ $(document).ready(function () {
                                 "<span><div class=\"dataul\"> <h3>RefSeq Protein ID:</h3>" + "<a href=https://www.ncbi.nlm.nih.gov/protein/" + genes[i]['refseqProtein']['value'] + ">" + genes[i]['refseqProtein']['value'] + "</a>" + "</div></span>" +
                                 "<span><div class=\"dataul\"> <h3>Wikidata Item ID:</h3>" + "<a href=" + genes[i]['protein']['value'] + ">" + protqid.slice(-1)[0] + "</a>" + "</div></span>"
                             );
-                            //$('#wdprotbut').html("<a href=" + genes[i]['protein']['value'] + "> <img id=\"wdlogo3\" src=\"img/GeneWikidata-logo-en.png\"></a>");
+                            $('#wdprotbut').html("<a href=" + genes[i]['protein']['value'] + "> <img id=\"wdlogo3\" src=\"img/GeneWikidata-logo-en.png\"></a>");
                         }
 
 
