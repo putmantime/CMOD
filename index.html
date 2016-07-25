@@ -1,90 +1,117 @@
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <title>CMOD</title>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" type='text/css' href="css/style.css">
     <link rel='stylesheet' type='text/css' href='css/jquery-ui.theme.css'/>
     <link rel='stylesheet' type='text/css' href='css/jquery-ui.structure.css'/>
     <link rel='stylesheet' type='text/css' href='css/jquery-ui.css'/>
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
-
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="./script.js" type="text/javascript"></script>
 </head>
-<body style="background-color: #E5E8E8">
-<div class="main_container">
-    <div>
-        <div class="main_nav">
-            <h1>Centralized Model Organism Database for Microbes</h1>
+<body>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12 gutter_padding">
+            <div id="main_header" class="allborders">
+                <h1>Centralized Model Organism Database of Microbes</h1>
+            </div>
         </div>
-        <div style="background-color: whitesmoke" class="jumbotron">
+    </div>
+    <div class="row">
+        <div class="col-md-12 gutter_padding">
             <div id="jbrowse">
-
             </div>
         </div>
     </div>
-</div>
-<div id="container">
-    <div class="box1">
-        <div class="boxheader" style="overflow:hidden">
-        <h2 style="float:left">
-            Organism
-        </h2>
-            <button id="wdorgbut" class="wdbutton btn btn-default"><img id="wdlogo1" src="img/GeneWikidata-logo-en.png"></button>
-        <div class="ui-widget myforms" style="float:left">
-            <form class="navbar-form navbar-left" role="search">
-                <label for="organisms"></label>
-                <div class="form-group">
-                    <input id=organisms type="text" name="orgFormItem" class="form-control" placeholder="choose a microbe">
+    <div class="row">
+        <div class="col-md-4 gutter_padding">
+            <div id="organism" class="allborders min-box-height">
+                <div class="boxheader">
+                    <div id="oboxhead" class="row">
+                        <div id="oboxhead_h2" class="col-md-6">
+                            <h2>Organism</h2>
+                        </div>
+                        <div class="col-md-6 boxhead_wdbut">
+                            <button id="wdorgbut" class="wdbutton btn btn-default"><img id="wdlogo1"
+                                                                                        src="img/GeneWikidata-logo-en.png">
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div id="oboxform" class="col-md-12">
+                            <form class="form-inline ui-widget">
+                                <div class="form-group">
+                                    <label for="orgform"></label>
+                                    <input type="text" class="form-control" id="orgform"
+                                           placeholder="choose a microbe" name="orgFormItem">
+                                </div>
+                                <button id="button1" type="submit" class="btn btn-primary">Select</button>
+                            </form>
+                        </div>
+                    </div>
+
                 </div>
-                <button id="button1" type="submit" class="btn btn-default">
-                    Submit
-                </button>
-            </form>
-        </div>
+                <div class="data orgData"></div>
             </div>
-        <div class="orgData"></div>
-    </div>
-    <div class="box2">
-        <div class="boxheader" style="overflow:hidden">
-        <h2 style="float:left">
-            Gene
-        </h2>
-            <button id="wdgenebut" class="wdbutton btn btn-default"><img id="wdlogo2" src="img/GeneWikidata-logo-en.png"></button>
-        <div class="ui-widget myforms" style="float:left">
-            <form class="navbar-form navbar-left" role="search">
-                <label for="geneac"></label>
-
-                <div class="form-group">
-                    <input id="geneac" type="text" name="geneFormItem" class="form-control" placeholder="choose a gene">
+        </div>
+        <div class="col-md-4 gutter_padding">
+            <div id="gene" class="allborders min-box-height">
+                <div class="boxheader">
+                    <div id="gboxhead" class="row">
+                        <div id="gboxhead_h2" class="col-md-6"><h2>Gene</h2></div>
+                        <div class="col-md-6 boxhead_wdbut">
+                            <button id="wdgenebut" class="wdbutton btn btn-default">
+                                <img id="wdlogo2" src="img/GeneWikidata-logo-en.png">
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div id="gboxhead_form" class="col-md-12">
+                            <form class="form-inline ui-widget">
+                                <div class="form-group">
+                                    <label for="geneForm"></label>
+                                    <input type="text" class="form-control" id="geneForm" name="geneFormItem"
+                                           placeholder="choose a gene">
+                                </div>
+                                <button id="button2" type="submit" class="btn btn-primary">Select</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-                <button id="button2" type="submit" class="btn btn-default">
-                    Submit
-                </button>
-            </form>
+                <div class="data geneData"></div>
+            </div>
         </div>
+        <div class="col-md-4 gutter_padding">
+            <div id="pbox" class="allborders min-box-height">
+                <div class="boxheader">
+                    <div id="pboxhead" class="row">
+                        <div id="pboxhead_h2" class="col-md-6"><h2>Protein</h2></div>
+                        <div id="pboxhead_wdbut" class="col-md-6 boxhead_wdbut">
+                            <button id="wdprotbut" class="wdbutton btn btn-default">
+                                <img id="wdlogo3" src="img/GeneWikidata-logo-en.png">
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div id="pboxhead_form" class="col-md-12"></div>
+                    </div>
+                </div>
+                <div class="data proteinData"></div>
             </div>
-        <div class="geneData"></div>
+        </div>
     </div>
-    <div class="box3">
-
-        <div class="boxheader">
-            <button id="wdprotbut" class="wdbutton btn btn-default"><img id="wdlogo3" src="img/GeneWikidata-logo-en.png"></button>
-        <h2>
-            Gene Product
-        </h2>
-
-            </div>
-        <div class="proteinData"></div>
+    <div class="row">
+        <div class="col-md-12 gutter_padding">
+            <div id="main_footer" class="allborders"></div>
+        </div>
     </div>
-    <span class="stretch"></span>
-</div>
-
 
 </body>
-<script type="text/javascript" src="script.js"></script>
 </html>
