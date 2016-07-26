@@ -30,7 +30,7 @@ h2{
 }
 
 .min-box-height {
-    height: 500px;
+    height: 600px;
 }
 
 #jbrowse {
@@ -127,7 +127,7 @@ iframe {
 
 }
 .scroll{
-    height: 350px;
+    height: 400px;
     overflow: auto;
 }
 
