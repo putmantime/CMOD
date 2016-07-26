@@ -30,6 +30,10 @@ $(document).ready(function () {
         });
     });
     $("#button1").off("click").click(function (event) {
+        $("#gene_form_div").html("<form class=\"form-inline ui-widget\"> <div class=\"form-group\"> " +
+                    "<label for=\"geneForm\"></label> <input type=\"text\" class=\"form-control\" id=\"geneForm\" " +
+                    "name=\"geneFormItem\" placeholder=\"choose a gene\"> </div> <button id=\"button2\" type=\"submit\" " +
+                    "class=\"btn btn-primary\">Select</button> </form>");
         var availablegeneTags = [];
         event.preventDefault();
 
@@ -98,6 +102,7 @@ $(document).ready(function () {
                         source: availablegeneTags
                     });
                 });
+
 
                 $("#button2").off("click").click(function (event2) {
 
