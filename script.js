@@ -43,8 +43,9 @@ $(document).ready(function () {
         var organism = $('input[name=orgFormItem]').val();
         var current_taxid = taxids[organism];
         var orgqid = current_taxid[1].split('/');
-        $("div.orgData").html("<span><div class=\"dataul\"> <h4>Organism Name:</h4>" + current_taxid[3] + "</div></span>" +
-            "<span><div class=\"dataul\"> <h4>NCBI Taxonomy ID:</h4>" + "<a target=\"_blank\" href=https://www.ncbi.nlm.nih.gov/taxonomy/" + current_taxid[0] + ">" + current_taxid[0] + "</a>" + "</div></span>" +
+        $("#orgName").html("<h3><i>" + current_taxid[3] + "</i></h3>");
+
+        $("div.orgData").html("<span><div class=\"dataul\"> <h4>NCBI Taxonomy ID:</h4>" + "<a target=\"_blank\" href=https://www.ncbi.nlm.nih.gov/taxonomy/" + current_taxid[0] + ">" + current_taxid[0] + "</a>" + "</div></span>" +
             "<span><div class=\"dataul\"> <h4>NCBI RegSeq Accession:</h4>" + "<a target=\"_blank\" href=http://www.ncbi.nlm.nih.gov/nuccore/" + current_taxid[2] + ">" + current_taxid[2] + "</a>" + "</div></span>" +
             "<span><div class=\"dataul\"> <h4>Wikidata Item ID:</h4>" + "<a  target=\"_blank\" href=" + current_taxid[1] + ">" + orgqid.slice(-1)[0] + "</a>" + "</div></span>"
         );
@@ -118,6 +119,7 @@ $(document).ready(function () {
                             var coords = "&tracklist=0&menu=0&loc=" + genes[i]['genomeaccession']['value'] + ":" + gstart + ".." + gend;
                             var gene_wd_uri = genes[i]['gene']['value'];
                             var geneqid = gene_wd_uri.split('/');
+                            //$("#geneName").html("<h3>" + genes[i]['geneLabel']['value'] + "</h3>");
                             $("div.geneData").html("<span><div class=\"dataul\"> <h4>Gene Name:</h4>" + genes[i]['geneLabel']['value'] + "</div></span>" +
                                 "<span><div class=\"dataul\">  <h4>Locus Tag:</h4>" + "<a target=\"_blank\" href=http://www.ncbi.nlm.nih.gov/gene/?term=" + genes[i]['locustag']['value'] + ">" + genes[i]['locustag']['value'] + "</a>" + "</div></span>" +
                                 "<span><div class=\"dataul\">  <h4>Entrez ID:</h4>" + "<a target=\"_blank\" href=http://www.ncbi.nlm.nih.gov/gene/?term=" + genes[i]['entrezid']['value'] + ">" + genes[i]['entrezid']['value'] + "</a>" + "</div></span>" +
@@ -137,6 +139,7 @@ $(document).ready(function () {
                             var prot_wd_uri = genes[i]['protein']['value'];
                             var protqid = prot_wd_uri.split('/');
 
+                            //$("#protName").html("<h3>" + genes[i]['proteinLabel']['value'] + "</h3>");
                             $("div.proteinData").html("<span><div class=\"dataul\"> <h4>Protein Name:</h4>" + genes[i]['proteinLabel']['value'] + "</div></span>" +
                                 "<span><div class=\"dataul\"> <h4>UniProt ID:</h4>" + "<a target=\"_blank\" href=http://purl.uniprot.org/uniprot/" + genes[i]['uniprot']['value'] + ">" + genes[i]['uniprot']['value'] + "</a>" + "</div></span>" +
                                 "<span><div class=\"dataul\"> <h4>RefSeq Protein ID:</h4>" + "<a target=\"_blank\" href=https://www.ncbi.nlm.nih.gov/protein/" + genes[i]['refseqProtein']['value'] + ">" + genes[i]['refseqProtein']['value'] + "</a>" + "</div></span>" +
