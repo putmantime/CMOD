@@ -43,10 +43,10 @@ $(document).ready(function () {
         var organism = $('input[name=orgFormItem]').val();
         var current_taxid = taxids[organism];
         var orgqid = current_taxid[1].split('/');
-        $("div.orgData").html("<span><div class=\"dataul\"> <h3>Organism Name:</h3>" + current_taxid[3] + "</div></span>" +
-            "<span><div class=\"dataul\"> <h3>NCBI Taxonomy ID:</h3>" + "<a target=\"_blank\" href=https://www.ncbi.nlm.nih.gov/taxonomy/" + current_taxid[0] + ">" + current_taxid[0] + "</a>" + "</div></span>" +
-            "<span><div class=\"dataul\"> <h3>NCBI RegSeq Accession:</h3>" + "<a target=\"_blank\" href=http://www.ncbi.nlm.nih.gov/nuccore/" + current_taxid[2] + ">" + current_taxid[2] + "</a>" + "</div></span>" +
-            "<span><div class=\"dataul\"> <h3>Wikidata Item ID:</h3>" + "<a  target=\"_blank\" href=" + current_taxid[1] + ">" + orgqid.slice(-1)[0] + "</a>" + "</div></span>"
+        $("div.orgData").html("<span><div class=\"dataul\"> <h4>Organism Name:</h4>" + current_taxid[3] + "</div></span>" +
+            "<span><div class=\"dataul\"> <h4>NCBI Taxonomy ID:</h4>" + "<a target=\"_blank\" href=https://www.ncbi.nlm.nih.gov/taxonomy/" + current_taxid[0] + ">" + current_taxid[0] + "</a>" + "</div></span>" +
+            "<span><div class=\"dataul\"> <h4>NCBI RegSeq Accession:</h4>" + "<a target=\"_blank\" href=http://www.ncbi.nlm.nih.gov/nuccore/" + current_taxid[2] + ">" + current_taxid[2] + "</a>" + "</div></span>" +
+            "<span><div class=\"dataul\"> <h4>Wikidata Item ID:</h4>" + "<a  target=\"_blank\" href=" + current_taxid[1] + ">" + orgqid.slice(-1)[0] + "</a>" + "</div></span>"
         );
         $("#orgbut").html("<button data-toggle=\"tooltip\" title=\"Go to the Wikidata page for the microbe " + current_taxid[3] + "\"" + "id=\"wdorgbut\" class=\"wdbutton btn btn-default\"><img id=\"wdlogo1\" src=\"img/GeneWikidata-logo-en.png\"></button>");
 
@@ -57,7 +57,7 @@ $(document).ready(function () {
         });
 
 
-        var defaultCoords = "&menu=0&loc=" + current_taxid[2] + ":" + "100000..200000&tracks=genes_canvas_mod";
+        var defaultCoords = "&tracklist=0&menu=0&loc=" + current_taxid[2] + ":" + "100000..200000&tracks=genes_canvas_mod";
         jbrowse_url = "JBrowse-1.12.1-dev/index.html?data=sparql_data/sparql_data_" + current_taxid[0];
         $('#jbrowse').html("<span><iframe src=" + jbrowse_url + defaultCoords + "></iframe> </span>");
 
@@ -115,15 +115,15 @@ $(document).ready(function () {
 
                             var gstart = genes[i]['genomicstart']['value'] - 400;
                             var gend = genes[i]['genomicend']['value'] - (-400);
-                            var coords = "&menu=0&loc=" + genes[i]['genomeaccession']['value'] + ":" + gstart + ".." + gend;
+                            var coords = "&tracklist=0&menu=0&loc=" + genes[i]['genomeaccession']['value'] + ":" + gstart + ".." + gend;
                             var gene_wd_uri = genes[i]['gene']['value'];
                             var geneqid = gene_wd_uri.split('/');
-                            $("div.geneData").html("<span><div class=\"dataul\"> <h3>Gene Name:</h3>" + genes[i]['geneLabel']['value'] + "</div></span>" +
-                                "<span><div class=\"dataul\">  <h3>Locus Tag:</h3>" + "<a target=\"_blank\" href=http://www.ncbi.nlm.nih.gov/gene/?term=" + genes[i]['locustag']['value'] + ">" + genes[i]['locustag']['value'] + "</a>" + "</div></span>" +
-                                "<span><div class=\"dataul\">  <h3>Entrez ID:</h3>" + "<a target=\"_blank\" href=http://www.ncbi.nlm.nih.gov/gene/?term=" + genes[i]['entrezid']['value'] + ">" + genes[i]['entrezid']['value'] + "</a>" + "</div></span>" +
-                                "<span><div class=\"dataul\">  <h3>Genome Start:</h3>" + genes[i]['genomicstart']['value'] + "</div></span>" +
-                                "<span><div class=\"dataul\">  <h3>Genome End:</h3>" + genes[i]['genomicend']['value'] + "</div></span>" +
-                                "<span><div class=\"dataul\">  <h3>Wikidata Item ID:</h3>" + "<a target=\"_blank\" href=" + genes[i]['gene']['value'] + ">" + geneqid.slice(-1)[0] + "</a>" + "</div></span>"
+                            $("div.geneData").html("<span><div class=\"dataul\"> <h4>Gene Name:</h4>" + genes[i]['geneLabel']['value'] + "</div></span>" +
+                                "<span><div class=\"dataul\">  <h4>Locus Tag:</h4>" + "<a target=\"_blank\" href=http://www.ncbi.nlm.nih.gov/gene/?term=" + genes[i]['locustag']['value'] + ">" + genes[i]['locustag']['value'] + "</a>" + "</div></span>" +
+                                "<span><div class=\"dataul\">  <h4>Entrez ID:</h4>" + "<a target=\"_blank\" href=http://www.ncbi.nlm.nih.gov/gene/?term=" + genes[i]['entrezid']['value'] + ">" + genes[i]['entrezid']['value'] + "</a>" + "</div></span>" +
+                                "<span><div class=\"dataul\">  <h4>Genome Start:</h4>" + genes[i]['genomicstart']['value'] + "</div></span>" +
+                                "<span><div class=\"dataul\">  <h4>Genome End:</h4>" + genes[i]['genomicend']['value'] + "</div></span>" +
+                                "<span><div class=\"dataul\">  <h4>Wikidata Item ID:</h4>" + "<a target=\"_blank\" href=" + genes[i]['gene']['value'] + ">" + geneqid.slice(-1)[0] + "</a>" + "</div></span>"
                             );
 
                             $("#genebut").html("<button data-toggle=\"tooltip\" title=\"Go to the Wikidata page for the gene "
@@ -137,10 +137,10 @@ $(document).ready(function () {
                             var prot_wd_uri = genes[i]['protein']['value'];
                             var protqid = prot_wd_uri.split('/');
 
-                            $("div.proteinData").html("<span><div class=\"dataul\"> <h3>Protein Name:</h3>" + genes[i]['proteinLabel']['value'] + "</div></span>" +
-                                "<span><div class=\"dataul\"> <h3>UniProt ID:</h3>" + "<a target=\"_blank\" href=http://purl.uniprot.org/uniprot/" + genes[i]['uniprot']['value'] + ">" + genes[i]['uniprot']['value'] + "</a>" + "</div></span>" +
-                                "<span><div class=\"dataul\"> <h3>RefSeq Protein ID:</h3>" + "<a target=\"_blank\" href=https://www.ncbi.nlm.nih.gov/protein/" + genes[i]['refseqProtein']['value'] + ">" + genes[i]['refseqProtein']['value'] + "</a>" + "</div></span>" +
-                                "<span><div class=\"dataul\"> <h3>Wikidata Item ID:</h3>" + "<a target=\"_blank\" href=" + genes[i]['protein']['value'] + ">" + protqid.slice(-1)[0] + "</a>" + "</div></span>"
+                            $("div.proteinData").html("<span><div class=\"dataul\"> <h4>Protein Name:</h4>" + genes[i]['proteinLabel']['value'] + "</div></span>" +
+                                "<span><div class=\"dataul\"> <h4>UniProt ID:</h4>" + "<a target=\"_blank\" href=http://purl.uniprot.org/uniprot/" + genes[i]['uniprot']['value'] + ">" + genes[i]['uniprot']['value'] + "</a>" + "</div></span>" +
+                                "<span><div class=\"dataul\"> <h4>RefSeq Protein ID:</h4>" + "<a target=\"_blank\" href=https://www.ncbi.nlm.nih.gov/protein/" + genes[i]['refseqProtein']['value'] + ">" + genes[i]['refseqProtein']['value'] + "</a>" + "</div></span>" +
+                                "<span><div class=\"dataul\"> <h4>Wikidata Item ID:</h4>" + "<a target=\"_blank\" href=" + genes[i]['protein']['value'] + ">" + protqid.slice(-1)[0] + "</a>" + "</div></span>"
                             );
 
                             $("#protbut").html("<button data-toggle=\"tooltip\" title=\"Go to the Wikidata page for the protein " + genes[i]['proteinLabel']['value'] + "\"" + "id=\"wdprotbut\" class=\"wdbutton btn btn-default\"><img id=\"wdlogo3\" src=\"img/GeneWikidata-logo-en.png\"></button>");
