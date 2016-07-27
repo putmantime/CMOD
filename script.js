@@ -31,9 +31,9 @@ $(document).ready(function () {
     });
     $("#button1").off("click").click(function (event) {
         $("#gene_form_div").html("<form class=\"form-inline ui-widget\"> <div class=\"form-group\"> " +
-                    "<label for=\"geneForm\"></label> <input type=\"text\" class=\"form-control\" id=\"geneForm\" " +
+                    "<label for=\"geneForm\">Gene/Protein Selection:</label> <input type=\"text\" class=\"form-control formborders\" id=\"geneForm\" " +
                     "name=\"geneFormItem\" placeholder=\"choose a gene\"> </div> <button id=\"button2\" type=\"submit\" " +
-                    "class=\"btn btn-primary\">Select</button> </form>");
+                    "class=\"btn btn-primary formborders\">Select</button> </form>");
         var availablegeneTags = [];
         event.preventDefault();
 
@@ -115,7 +115,7 @@ $(document).ready(function () {
 
                             var gstart = genes[i]['genomicstart']['value'] - 400;
                             var gend = genes[i]['genomicend']['value'] - (-400);
-                            var coords = "&loc=" + genes[i]['genomeaccession']['value'] + ":" + gstart + ".." + gend;
+                            var coords = "&menu=0&loc=" + genes[i]['genomeaccession']['value'] + ":" + gstart + ".." + gend;
                             var gene_wd_uri = genes[i]['gene']['value'];
                             var geneqid = gene_wd_uri.split('/');
                             $("div.geneData").html("<span><div class=\"dataul\"> <h3>Gene Name:</h3>" + genes[i]['geneLabel']['value'] + "</div></span>" +

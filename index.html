@@ -20,62 +20,75 @@
     <div class="row">
         <div class="col-md-12 gutter_padding">
             <div id="main_header" class="allborders">
-                <h1>Centralized Model Organism Database</h1>
+                <h1 id="main_title">Centralized Model Organism Database</h1>
+
+                <div class="row header_forms">
+                    <div class="col-md-6 gutter_padding">
+                        <div>
+                            <form class="form-inline ui-widget">
+                                <div class="form-group">
+                                    <label for="orgform">Organism Selection:</label>
+                                    <input type="text" class="form-control formborders" id="orgform"
+                                           placeholder="choose a microbe" name="orgFormItem">
+                                </div>
+                                <button id="button1" type="submit" class="btn btn-primary formborders" data-toggle="tooltip"
+                                  title="Start typing the name of your favorite organism in the search box">Select</button>
+                            </form>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6 gutter_padding">
+                        <div id="gene_form_div" class="col-md-12 boxhead_form">
+
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12 gutter_padding">
+        <div class="col-md-3 gutter_padding">
+            <div id="organism" class="allborders  boxcolor">
+                <div class="boxheader">
+                    <div class="row boxhead">
+                        <div class="col-md-12">
+                            <div class="boxhead_2">
+                                <h2>Organism</h2>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 boxhead_form">
+                        </div>
+                    </div>
+                </div>
+                <div class="orgscroll">
+                    <div class="data orgData"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 gutter_padding">
             <div id="jbrowse">
             </div>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-4 gutter_padding">
-            <div id="organism" class="allborders min-box-height boxcolor">
-                <div class="boxheader">
-                    <div class="row boxhead">
-                        <div class="col-md-6 boxhead_h2">
-                            <h2>Organism</h2>
-                        </div>
-                        <div id="orgbut" class="col-md-6 boxhead_wdbut">
-
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div data-toggle="tooltip" title="Start typing the name of your favorite organism in the search box"  class="col-md-12 boxhead_form">
-                            <form class="form-inline ui-widget">
-                                <div class="form-group">
-                                    <label for="orgform"></label>
-                                    <input type="text" class="form-control" id="orgform"
-                                           placeholder="choose a microbe" name="orgFormItem">
-                                </div>
-                                <button id="button1" type="submit" class="btn btn-primary">Select</button>
-                            </form>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="scroll">
-                    <div class="data orgData"></div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 gutter_padding">
+        <div class="col-md-6 gutter_padding">
             <div id="gene" class="allborders min-box-height boxcolor">
                 <div class="boxheader">
                     <div class="row boxhead">
-                        <div class="col-md-6 boxhead_h2">
-                            <h2>Gene</h2>
+                        <div class="col-md-12">
+                            <div class="boxhead_2">
+                                <h2>Gene</h2>
+                            </div>
                         </div>
-                        <div id="genebut" class="col-md-6 boxhead_wdbut">
 
-                        </div>
                     </div>
                     <div class="row">
-                        <div id="gene_form_div" class="col-md-12 boxhead_form">
 
-                        </div>
                     </div>
                 </div>
                 <div class="scroll">
@@ -83,16 +96,16 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4 gutter_padding">
+        <div class="col-md-6 gutter_padding">
             <div id="pbox" class="allborders min-box-height boxcolor">
                 <div class="boxheader">
                     <div class="row boxhead">
-                        <div class="col-md-6 boxhead_h2">
-                            <h2>Protein</h2>
+                        <div class="col-md-12">
+                            <div class="boxhead_2">
+                                <h2>Protein</h2>
+                            </div>
                         </div>
-                        <div id="protbut" class="col-md-6 boxhead_wdbut">
 
-                        </div>
                     </div>
                     <div class="row">
                         <div id="pboxhead_form" class="col-md-12"></div>
