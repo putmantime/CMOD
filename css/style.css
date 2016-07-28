@@ -60,7 +60,7 @@ h4{
 
 #jbrowse {
     height: 400px;
-    border: solid lightgrey 3px;
+    border: solid #99c2ff 3px;
     border-radius: 4px;
     background-color: whitesmoke;
 }
@@ -85,7 +85,6 @@ iframe {
 
 .boxheader {
     background-color: #99c2ff;
-    border-bottom: solid darkgray 2px;
     min-height: 90px;
     border-top-right-radius: 6px;
     border-top-left-radius: 6px;

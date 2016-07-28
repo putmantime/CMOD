@@ -13,6 +13,7 @@
     <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src="./script.js" type="text/javascript"></script>
+    <script src="./forms.js" type="text/javascript"></script>
 </head>
 <body>
 
@@ -52,15 +53,19 @@
             <div id="organism" class="allborders  boxcolor">
                 <div class="boxheader">
                     <div class="row boxhead">
-                        <div class="col-md-12">
-                            <div class="boxhead_2">
+                        <div class="col-md-12 boxhead_2">
+                            <div class="col-md-6">
                                 <h2>Organism</h2>
+                            </div>
+                            <div id="organism_data" class="col-md-6">
+
                             </div>
                         </div>
 
                     </div>
                     <div class="row">
                         <div id="orgName" class="col-md-12 boxhead_form">
+
                         </div>
                     </div>
                 </div>
@@ -88,40 +93,40 @@
                     </div>
                     <div class="row">
                         <div id="geneName" class="col-md-12 boxhead_form">
-                    </div>
-                </div>
-            </div>
-            <div class="scroll">
-                <div class="data geneData"></div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-6 gutter_padding">
-        <div id="pbox" class="allborders min-box-height boxcolor">
-            <div class="boxheader">
-                <div class="row boxhead">
-                    <div class="col-md-12">
-                        <div class="boxhead_2">
-                            <h2>Protein</h2>
                         </div>
                     </div>
-
                 </div>
-                <div class="row">
-                    <div id="protName" class="col-md-12 boxhead_form"></div>
+                <div class="scroll">
+                    <div class="data geneData"></div>
                 </div>
             </div>
-            <div class="scroll">
-                <div class="data proteinData"></div>
+        </div>
+        <div class="col-md-6 gutter_padding">
+            <div id="pbox" class="allborders min-box-height boxcolor">
+                <div class="boxheader">
+                    <div class="row boxhead">
+                        <div class="col-md-12">
+                            <div class="boxhead_2">
+                                <h2>Protein</h2>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div id="protName" class="col-md-12 boxhead_form"></div>
+                    </div>
+                </div>
+                <div class="scroll">
+                    <div class="data proteinData"></div>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-md-12 gutter_padding">
-        <div id="main_footer"></div>
+    <div class="row">
+        <div class="col-md-12 gutter_padding">
+            <div id="main_footer"></div>
+        </div>
     </div>
-</div>
 
 </body>
 </html>
