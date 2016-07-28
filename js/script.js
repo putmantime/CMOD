@@ -200,7 +200,7 @@ $(document).ready(function () {
                                         "name=\"bioprocForm\" placeholder=\"biological process\"> </div> <button type=\"submit\" " +
                                         "class=\"btn btn-primary formborders\">Select</button> </form>");
                                     $("#molfuncdata").append("<form style=\"margin-top:10px\" class=\"form-inline ui-widget\"> <div class=\"form-group\"> " +
-                                        "<label>Add a biological product:</label> <input type=\"text\" class=\"form-control formborders\" " +
+                                        "<label>Add a molecular function:</label> <input type=\"text\" class=\"form-control formborders\" " +
                                         "name=\"molfuncForm\" placeholder=\"molecular function\"> </div> <button type=\"submit\" " +
                                         "class=\"btn btn-primary formborders\">Select</button> </form>");
                                     $("#celcompdata").append("<form style=\"margin-top:10px\" class=\"form-inline ui-widget\"> <div class=\"form-group\"> " +
