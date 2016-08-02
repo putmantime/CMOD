@@ -94,13 +94,24 @@ var getGenes = function (taxid) {
 };
 
 var getGOTerms = function (uniprot) {
-    var goQuery = ["SELECT distinct ?pot_go ?goterm_label ?goclass ?goclass_label WHERE { ?protein wdt:P352",
+
+    var goQuery = [
+        "SELECT distinct ?pot_go ?goterm_label ?goID ?goclass ?goclass_label WHERE {",
+        "?protein wdt:P352",
         "\"" + uniprot + "\".",
-        "{?protein wdt:P680 ?pot_go} UNION {?protein wdt:P681 ?pot_go} UNION {?protein wdt:P682 ?pot_go} .",
-        "?pot_go wdt:P279* ?goclass. ?pot_go rdfs:label ?goterm_label. FILTER (LANG(?goterm_label) = \"en\")",
+        "{?protein wdt:P680 ?pot_go}",
+        "UNION {?protein wdt:P681 ?pot_go}",
+        "UNION {?protein wdt:P682 ?pot_go} .",
+        "?pot_go wdt:P279* ?goclass. ",
+        "?pot_go rdfs:label ?goterm_label.",
+        "?pot_go wdt:P686 ?goID.",
+        "FILTER (LANG(?goterm_label) = \"en\")",
         "FILTER ( ?goclass = wd:Q2996394 || ?goclass = wd:Q5058355 || ?goclass = wd:Q14860489)",
-        "?goclass rdfs:label ?goclass_label. FILTER (LANG(?goclass_label) = \"en\")}"
+        "?goclass rdfs:label ?goclass_label.",
+        "FILTER (LANG(?goclass_label) = \"en\")}"
+
     ].join(" ");
+
 
 
     $.ajax({
@@ -111,16 +122,17 @@ var getGOTerms = function (uniprot) {
 
             $.each(data['results']['bindings'], function (key, element) {
                 console.log(element);
+                var goinput = "<div class=\"dataul\"><span><h4>" + element['goterm_label']['value'] + ":&nbsp;&nbsp;&nbsp;&nbsp;" + element['goID']['value'] +"</h4></span></div>"
                 if (element['goclass_label']['value'] == 'biological process') {
-                    $("#bioprocdata").append("<div class=\"dataul\"><h4>" + element['goterm_label']['value'] + "</h4></div>");
+                    $("#bioprocdata").append(goinput);
                 }
 
                 if (element['goclass_label']['value'] == 'molecular function') {
-                    $("#molfuncdata").append("<div class=\"dataul\"><h4>" + element['goterm_label']['value'] + "</h4></div>");
+                    $("#molfuncdata").append(goinput);
                 }
 
                 if (element['goclass_label']['value'] == 'cellular component') {
-                    $("#celcompdata").append("<div class=\"dataul\"><h4>" + element['goterm_label']['value'] + "</h4></div>");
+                    $("#celcompdata").append(goinput);
                 }
 
 

@@ -21,8 +21,6 @@ h1, h2{
 }
 
 
-
-
 .gutter_padding {
     padding: 2px;
 
@@ -117,6 +115,7 @@ iframe {
     font-size: 15px;
     color: #385d94;
     padding: 15px;
+    overflow: auto;
 
 
 }
@@ -186,4 +185,8 @@ iframe {
 .goborder{
     padding-right: 18px;
     padding-left: 18px;
+}
+.goform{
+    float:right;
+    margin-top: 5px;
 }
