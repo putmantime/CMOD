@@ -1,23 +1,4 @@
 $(document).ready(function () {
-    addOrgName("Chlamydia trachomatis 434/BU");
-    addGeneForm();
-    addOrgData('417142', 'NC_010287.1', 'Q20800254');
-    addGeneProteinData(
-        'phosphoenolpyruvate carboxykinase CTL0079',
-        '5858756',
-        'http://www.wikidata.org/entity/Q21172168',
-        'CTL0079',
-        '99224',
-        '101023',
-        'http://www.wikidata.org/entity/Q21173142',
-        'phosphoenolpyruvate carboxykinase CTL0079',
-        'A0A0H3MCG6',
-        'YP_001654170'
-    );
-    addGoBoxes();
-    getGOTerms('A0A0H3MCG6');
-    launch_jbrowse('471472');
-    focus_jbrowse("&tracklist=0&menu=0&loc=NC_010287.1:99024..101223");
 
 
     //populate organism search box using getOrgs() as source
@@ -25,6 +6,7 @@ $(document).ready(function () {
     $(function () {
         var currentTaxa = [];
         var currentGenes = [];
+
         $("#orgform").autocomplete({
             minLength: 0,
             source: getOrgs(),
@@ -108,10 +90,3 @@ $(document).ready(function () {
 
 });
 
-
-//    $("#orgform").on("autocompleteselect", function (event, ui) {
-//
-//
-//
-//
-//});
