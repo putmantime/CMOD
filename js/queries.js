@@ -1,0 +1,133 @@
+var endpoint = "https://query.wikidata.org/sparql?format=json&query=";
+
+//get list of organisms from Wikidata with sparql query
+var getOrgs = function () {
+    var taxids = {};
+    var orgTags = [];
+    var queryOrgs = [
+        "SELECT ?species ?speciesLabel ?taxid ?RefSeq",
+        "WHERE { ?species wdt:P171* wd:Q10876;",
+        "wdt:P685 ?taxid; wdt:P2249 ?RefSeq.",
+        "SERVICE wikibase:label {",
+        "bd:serviceParam wikibase:language \"en\" .}}"].join(" ");
+    $.ajax({
+        type: "GET",
+        url: endpoint + queryOrgs,
+        dataType: 'json',
+        success: function (data) {
+            $.each(data['results']['bindings'], function (key, element) {
+                var wdid = element['species']['value'].split("/");
+                var qid = wdid.slice(-1)[0];
+                taxids = {
+                    "label": element['speciesLabel']['value'],
+                    "taxid": element['taxid']['value'],
+                    "refseq": element['RefSeq']['value'],
+                    'qid': qid
+                };
+                orgTags.push(taxids);
+            });
+        }
+    });
+
+    return orgTags
+};
+
+
+var getGenes = function (taxid) {
+    var genes = {};
+    var geneTags = [];
+    var queryGenes = ["SELECT  ?gene ?specieswd ?specieswdLabel ?taxid ?genomeaccession ?geneLabel ",
+        "?locustag ?entrezid ?genomicstart ?genomicend ?strand ?protein ?proteinLabel ?uniprot ?refseqProtein ",
+        "WHERE {",
+        "?specieswd wdt:P685",
+        "\"" + taxid + "\".",
+        "?specieswd wdt:P685 ?taxid;",
+        "wdt:P2249 ?genomeaccession.",
+        "?gene wdt:P703 ?specieswd;",
+        "wdt:P351 ?entrezid ;",
+        "wdt:P644 ?genomicstart;",
+        "wdt:P645 ?genomicend;",
+        "wdt:P2393 ?locustag;",
+        "wdt:P2548 ?strand.",
+
+        "OPTIONAL{?gene wdt:P688 ?protein.",
+        "?protein wdt:P352 ?uniprot;",
+        "wdt:P637 ?refseqProtein.}",
+        "SERVICE wikibase:label {",
+        "bd:serviceParam wikibase:language \"en\" .",
+        "}}"
+    ].join(" ");
+
+    $.ajax({
+        type: "GET",
+        url: endpoint + queryGenes,
+        dataType: 'json',
+        success: function (data) {
+            var geneData = data['results']['bindings'];
+            $.each(geneData, function (key, element) {
+                genes = {
+                    'label': element['geneLabel']['value'],
+                    'locustag': element['locustag']['value'],
+                    'id': element['entrezid']['value'],
+                    'genomicstart': element['genomicstart']['value'],
+                    'genomicend': element['genomicend']['value'],
+                    'gene': element['gene']['value'],
+                    'proteinLabel': element['proteinLabel']['value'],
+                    'uniprot': element['uniprot']['value'],
+                    'refseqProtein': element['refseqProtein']['value'],
+                    'protein': element['protein']['value'],
+                    'gqid': element['gene']['value'],
+                    'pqid': element['protein']['value']
+
+                };
+
+                geneTags.push(genes);
+
+            });
+
+
+        }
+    });
+    return geneTags;
+
+
+};
+
+var getGOTerms = function (uniprot) {
+    var goQuery = ["SELECT distinct ?pot_go ?goterm_label ?goclass ?goclass_label WHERE { ?protein wdt:P352",
+        "\"" + uniprot + "\".",
+        "{?protein wdt:P680 ?pot_go} UNION {?protein wdt:P681 ?pot_go} UNION {?protein wdt:P682 ?pot_go} .",
+        "?pot_go wdt:P279* ?goclass. ?pot_go rdfs:label ?goterm_label. FILTER (LANG(?goterm_label) = \"en\")",
+        "FILTER ( ?goclass = wd:Q2996394 || ?goclass = wd:Q5058355 || ?goclass = wd:Q14860489)",
+        "?goclass rdfs:label ?goclass_label. FILTER (LANG(?goclass_label) = \"en\")}"
+    ].join(" ");
+
+
+    $.ajax({
+        type: "GET",
+        url: "https://query.wikidata.org/sparql?format=json&query=" + goQuery,
+        dataType: 'json',
+        success: function (data) {
+
+            $.each(data['results']['bindings'], function (key, element) {
+                console.log(element);
+                if (element['goclass_label']['value'] == 'biological process') {
+                    $("#bioprocdata").append("<div class=\"dataul\"><h4>" + element['goterm_label']['value'] + "</h4></div>");
+                }
+
+                if (element['goclass_label']['value'] == 'molecular function') {
+                    $("#molfuncdata").append("<div class=\"dataul\"><h4>" + element['goterm_label']['value'] + "</h4></div>");
+                }
+
+                if (element['goclass_label']['value'] == 'cellular component') {
+                    $("#celcompdata").append("<div class=\"dataul\"><h4>" + element['goterm_label']['value'] + "</h4></div>");
+                }
+
+
+            });
+            appendGOForm();
+
+        }
+    });
+
+};
