@@ -98,11 +98,11 @@ iframe {
 }
 .goboxheader {
     background-color: #99c2ff;
-    height: 40px;
+    height: 60px;
     border-top-right-radius: 6px;
     border-top-left-radius: 6px;
     color: #385d94;
-    padding:5px;
+    padding:10px;
 
 
 }
@@ -124,34 +124,10 @@ iframe {
     border-bottom: solid #385d94 1px;
 }
 
-#wdlogo1 {
-    max-height: 60px;
-
-
-
+.godataul {
+    border-bottom: solid #385d94 2px;
 }
 
-#wdlogo2 {
-    max-height: 60px;
-
-}
-
-#wdlogo3 {
-    max-height: 60px;
-
-}
-
-#container {
-    /* switched from default (flex-start, see below) */
-}
-
-.boxhead_wdbut{
-    text-align: right;
-}
-
-.wdbutton{
-    border: solid darkgray 3px;
-}
 
 .boxcolor{
     background-color: whitesmoke;

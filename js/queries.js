@@ -113,7 +113,6 @@ var getGOTerms = function (uniprot) {
     ].join(" ");
 
 
-
     $.ajax({
         type: "GET",
         url: "https://query.wikidata.org/sparql?format=json&query=" + goQuery,
@@ -122,7 +121,14 @@ var getGOTerms = function (uniprot) {
 
             $.each(data['results']['bindings'], function (key, element) {
                 console.log(element);
-                var goinput = "<div class=\"dataul\"><span><h4>" + element['goterm_label']['value'] + ":&nbsp;&nbsp;&nbsp;&nbsp;" + element['goID']['value'] +"</h4></span></div>"
+                var goinput = "<div class=\"row dataul\"><div class=\"col-md-9\"><h4>" +
+                    element['goterm_label']['value'] + "</h4></div>" +
+                    "<div class=\"col-md-3\">" +
+                    "<a target=\"_blank\" href=http://amigo.geneontology.org/amigo/term/" + element['goID']['value'] + ">" +
+                    element['goID']['value'] + "</a>" +
+                    "</div></div>";
+
+
                 if (element['goclass_label']['value'] == 'biological process') {
                     $("#bioprocdata").append(goinput);
                 }

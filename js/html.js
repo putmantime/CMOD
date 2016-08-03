@@ -33,17 +33,26 @@ var addGeneProteinData = function (label, id, gqid,
 
 
     $("div.geneData").html("<span><div class=\"dataul\"> <h4>Gene Name:</h4>" + label + "</div></span>" +
-        "<span><div class=\"dataul\">  <h4>Locus Tag:</h4>" + "<a target=\"_blank\" href=http://www.ncbi.nlm.nih.gov/gene/?term=" + locustag + ">" + locustag + "</a>" + "</div></span>" +
-        "<span><div class=\"dataul\">  <h4>Entrez ID:</h4>" + "<a target=\"_blank\" href=http://www.ncbi.nlm.nih.gov/gene/?term=" + id + ">" + id + "</a>" + "</div></span>" +
+        "<span><div class=\"dataul\">  <h4>Locus Tag:</h4>" +
+        "<a target=\"_blank\" href=http://www.ncbi.nlm.nih.gov/gene/?term=" + locustag + ">"
+        + locustag + "</a>" + "</div></span>" +
+        "<span><div class=\"dataul\">  <h4>Entrez ID:</h4>" +
+        "<a target=\"_blank\" href=http://www.ncbi.nlm.nih.gov/gene/?term=" + id + ">"
+        + id + "</a>" + "</div></span>" +
         "<span><div class=\"dataul\">  <h4>Genome Start:</h4>" + genomicstart + "</div></span>" +
         "<span><div class=\"dataul\">  <h4>Genome End:</h4>" + genomicend + "</div></span>" +
-        "<span><div class=\"dataul\">  <h4>Wikidata Item ID:</h4>" + "<a target=\"_blank\" href=" + gqid + ">" + gqid + "</a>" + "</div></span>"
+        "<span><div class=\"dataul\">  <h4>Wikidata Item ID:</h4>" +
+        "<a target=\"_blank\" href=" + gqid + ">" + gqid + "</a>" + "</div></span>"
     );
 
     $("div.proteinData").html("<span><div class=\"dataul\"> <h4>Protein Name:</h4>" + proteinLabel + "</div></span>" +
-        "<span><div class=\"dataul\"> <h4>UniProt ID:</h4>" + "<a target=\"_blank\" href=http://purl.uniprot.org/uniprot/" + uniprot + ">" + uniprot + "</a>" + "</div></span>" +
-        "<span><div class=\"dataul\"> <h4>RefSeq Protein ID:</h4>" + "<a target=\"_blank\" href=https://www.ncbi.nlm.nih.gov/protein/" + refseqProtein + ">" + refseqProtein + "</a>" + "</div></span>" +
-        "<span><div class=\"dataul\"> <h4>Wikidata Item ID:</h4>" + "<a target=\"_blank\" href=" + pqid + ">" + pqid + "</a>" + "</div></span>"
+        "<span><div class=\"dataul\"> <h4>UniProt ID:</h4>" + "<a target=\"_blank\" href=http://purl.uniprot.org/uniprot/"
+        + uniprot + ">" + uniprot + "</a>" + "</div></span>" +
+        "<span><div class=\"dataul\"> <h4>RefSeq Protein ID:</h4>" +
+        "<a target=\"_blank\" href=https://www.ncbi.nlm.nih.gov/protein/" + refseqProtein + ">"
+        + refseqProtein + "</a>" + "</div></span>" +
+        "<span><div class=\"dataul\"> <h4>Wikidata Item ID:</h4>" + "<a target=\"_blank\" href=" + pqid + ">"
+        + pqid + "</a>" + "</div></span>"
     );
 
 };
@@ -52,18 +61,34 @@ var addGeneProteinData = function (label, id, gqid,
 var addGoBoxes = function () {
     $("#molfunc").html("<div class=\"col-md-12 gutter_padding\">" +
         "<div  class=\"goborders go-box-height boxcolor\">" +
-        "<div class=\"goboxheader\"><h4>Molecular Function</h4></div>" +
-        "<div id=\"molfuncdata\" class=\"data\" ></div> </div> </div> </div>");
+        "<div class=\"goboxheader\">" +
+        '<div class="row">' +
+        '<div class="col-md-9"><h4 class="godataul">Molecular Function</h4></div>' +
+        '<div class="col-md-3"><h4 class="godataul">GO ID</h4></div>' +
+        '</div>' +
+        '</div>' +
+        '<div style="padding:20px" id="molfuncdata" class="data" ></div> </div> </div> </div>');
 
     $("#bioproc").html("<div class=\"col-md-12 gutter_padding\">" +
         "<div  class=\"goborders go-box-height boxcolor\">" +
-        "<div class=\"goboxheader\"><h4>Biological Process</h4></div>" +
-        "<div id=\"bioprocdata\" class=\"data\" ></div> </div> </div> </div>");
+        "<div class=\"goboxheader\">" +
+        '<div class="row">' +
+        '<div class="col-md-9"><h4 class="godataul">Biological Process</h4></div>' +
+        '<div class="col-md-3"><h4 class="godataul">GO ID</h4></div>' +
+        '</div>' +
+        '</div>' +
+        '<div style="padding:20px" id="bioprocdata" class="data" ></div> </div> </div> </div>');
 
     $("#celcomp").html("<div class=\"col-md-12 gutter_padding\">" +
         "<div  class=\"goborders go-box-height boxcolor\">" +
-        "<div class=\"goboxheader\"><h4>Cellular Component</h4></div>" +
-        "<div id=\"celcompdata\" class=\"data\" ></div> </div> </div> </div>");
+        "<div class=\"goboxheader\">" +
+        '<div class="row">' +
+        '<div class="col-md-9"><h4 class="godataul">Cellular Component</h4></div>' +
+        '<div class="col-md-3"><h4 class="godataul">GO ID</h4></div>' +
+        '</div>' +
+        '</div>' +
+        '<div style="padding:20px" id="celcompdata" class="data" ></div> </div> </div> </div>');
+
 
 };
 
