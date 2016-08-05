@@ -94,15 +94,15 @@ var addGoBoxes = function () {
 
 var appendGOForm = function () {
     $("#bioprocdata").append("<form  class=\"form-inline ui-widget goform\"> <div class=\"form-group\"> " +
-        "<label>Add a biological process:</label> <input type=\"text\" class=\"form-control formborders\" " +
+        "<label for=\"bpform\">Add a biological process:</label> <input id=\"bpform\" type=\"text\" class=\"form-control formborders\" " +
         "name=\"bioprocForm\" placeholder=\"biological process\"> </div> <button type=\"submit\" " +
         "class=\"btn btn-primary formborders\">Select</button> </form>");
     $("#molfuncdata").append("<form  class=\"form-inline ui-widget goform\"> <div class=\"form-group\"> " +
-        "<label>Add a molecular function:</label> <input type=\"text\" class=\"form-control formborders\" " +
+        "<label for=\"mfform\">Add a molecular function:</label> <input id==\"mfform\" type=\"text\" class=\"form-control formborders\" " +
         "name=\"molfuncForm\" placeholder=\"molecular function\"> </div> <button type=\"submit\" " +
         "class=\"btn btn-primary formborders\">Select</button> </form>");
     $("#celcompdata").append("<form  class=\"form-inline ui-widget goform\"> <div class=\"form-group\"> " +
-        "<label>Add a cellular component:</label> <input type=\"text\" class=\"form-control formborders\" " +
+        "<label for=\"ccform\">Add a cellular component:</label> <input id==\"ccform\" type=\"text\" class=\"form-control formborders\" " +
         "name=\"celcompForm\" placeholder=\"cellular component\"> </div> <button type=\"submit\" " +
         "class=\"btn btn-primary formborders\">Select</button> </form>");
 

@@ -121,7 +121,7 @@ var getGOTerms = function (uniprot) {
 
             $.each(data['results']['bindings'], function (key, element) {
                 console.log(element);
-                var goinput = "<div class=\"row main-dataul\"><div class=\"col-md-9\"><h4>" +
+                var goinput = "<div class=\"row dataul\"><div class=\"col-md-9\"><h4>" +
                     element['goterm_label']['value'] + "</h4></div>" +
                     "<div class=\"col-md-3\">" +
                     "<a target=\"_blank\" href=http://amigo.geneontology.org/amigo/term/" + element['goID']['value'] + ">" +
@@ -148,3 +148,47 @@ var getGOTerms = function (uniprot) {
 };
 
 
+var goFormQuery = function (goclass_qid) {
+
+    var goterms = {};
+    var goTags = [];
+    var queryGOTerms = [
+        'SELECT distinct ?goterm_label ?goclass_label ?goID ?goterm WHERE {',
+        '?goterm wdt:P686 ?goID.',
+        '?goterm wdt:P279* ?goclass.',
+        '?goterm rdfs:label ?goterm_label.',
+        '?goclass rdfs:label ?goclass_label.',
+        'FILTER (LANG(?goterm_label) = "en")',
+        'FILTER ( ?goclass = wd:' + goclass_qid,
+        ')FILTER (LANG(?goclass_label) = "en")}'
+
+    ].join(" ");
+    console.log(queryGOTerms);
+
+    $.ajax({
+        type: "GET",
+        url: endpoint + queryGOTerms,
+        dataType: 'json',
+        success: function (data) {
+            var geneData = data['results']['bindings'];
+            console.log(geneData);
+            $.each(geneData, function (key, element) {
+                goterms = {
+                    'label': element['goterm_label']['value'],
+                    'goclass_label': element['goclass_label']['value'],
+                    'goterm': element['goterm']['value'],
+                    'id': element['goID']['value']
+
+                };
+
+                goTags.push(goterms);
+
+            });
+
+
+        }
+    });
+    return goTags;
+
+
+};
