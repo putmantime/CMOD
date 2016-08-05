@@ -93,14 +93,14 @@ iframe {
 
 .main-go-box{
     min-height: 180px;
-    border: solid #99c2ff 1px;
+    border: solid #cce0ff 2px;
     border-radius:10px;
     margin-top: 5px;
     color: #385d94;
 
 }
 .main-go-boxheader{
-    background-color: #99c2ff;
+    background-color: #cce0ff;
     height: 40px;
     border-top-right-radius: 6px;
     border-top-left-radius: 6px;

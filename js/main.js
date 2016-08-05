@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    var currentTaxa = [];
+    var currentTaxa = ['Chlamydia trachomatis 434/BU', '471472', 'Q20800254', 'NC_010287.1'];
 
     //Begin form modules
     //organism selection form module
@@ -21,6 +21,9 @@ $(document).ready(function () {
                 autoFocus: true,
                 select: function (event, ui) {
                     orginput.val("");
+                    $("#orgData, #geneData, #protData, .main-go-data").html("");
+
+
                     // currentTaxa = [orgname, taxid, qid, refseq accession]
                     currentTaxa = [ui.item.label, ui.item.taxid, ui.item.qid, ui.item.refseq];
                     //initiate gene form with organism data
@@ -131,8 +134,8 @@ $(document).ready(function () {
             };
             //this.$ul.html(Mustache.render(this.template, data));
             this.$orgD.html(
-                "<div class='main-data'><h4>NCBI Taxonomy ID:</h4>"      + taxData[1] + "</div>" +
-                "<div class='main-data'><h4>Wikidata ID:</h4>"           + taxData[2] + "</div>" +
+                "<div class='main-data'><h4>NCBI Taxonomy ID:</h4>" + taxData[1] + "</div>" +
+                "<div class='main-data'><h4>Wikidata ID:</h4>" + taxData[2] + "</div>" +
                 "<div class='main-data'><h4>NCBI RefSeq Accession:</h4>" + taxData[3] + "</div>"
             );
         }
@@ -160,12 +163,12 @@ $(document).ready(function () {
             console.log(data);
             //this.$ul.html(Mustache.render(this.template, data));
             this.$geneD.html(
-                "<div class='main-data'><h4>Gene Name:</h4><i>" +  data.gene[0] + "</i></div>" +
-                "<div class='main-data'><h4>Entrez ID:</h4>" +     data.gene[1] + "</div>" +
-                "<div class='main-data'><h4>Wikidata ID:</h4>" +   data.gene[2] + "</div>" +
-                "<div class='main-data'><h4>Locus Tag:</h4>" +     data.gene[3] + "</div>" +
+                "<div class='main-data'><h4>Gene Name:</h4><i>" + data.gene[0] + "</i></div>" +
+                "<div class='main-data'><h4>Entrez ID:</h4>" + data.gene[1] + "</div>" +
+                "<div class='main-data'><h4>Wikidata ID:</h4>" + data.gene[2] + "</div>" +
+                "<div class='main-data'><h4>Locus Tag:</h4>" + data.gene[3] + "</div>" +
                 "<div class='main-data'><h4>Genomic Start:</h4>" + data.gene[4] + "</div>" +
-                "<div class='main-data'><h4>Genomic End:</h4>" +   data.gene[5] + "</div>"
+                "<div class='main-data'><h4>Genomic End:</h4>" + data.gene[5] + "</div>"
             );
 
         }
@@ -193,10 +196,10 @@ $(document).ready(function () {
             console.log(data);
             //this.$ul.html(Mustache.render(this.template, data));
             this.$protD.html(
-                "<div class='main-data'><h4>Protein Name:</h4><i>" +  data.protein[0] + "</i></div>" +
-                "<div class='main-data'><h4>UniProt ID:</h4>" +       data.protein[1] + "</div>" +
-                "<div class='main-data'><h4>Wikidata ID:</h4>" +      data.protein[2] + "</div>" +
-                "<div class='main-data'><h4>RefSeq ID:</h4>" +        data.protein[3] + "</div>"
+                "<div class='main-data'><h4>Protein Name:</h4><i>" + data.protein[0] + "</i></div>" +
+                "<div class='main-data'><h4>UniProt ID:</h4>" + data.protein[1] + "</div>" +
+                "<div class='main-data'><h4>Wikidata ID:</h4>" + data.protein[2] + "</div>" +
+                "<div class='main-data'><h4>RefSeq ID:</h4>" + data.protein[3] + "</div>"
             );
         }
 
@@ -209,7 +212,7 @@ $(document).ready(function () {
 
         init: function (taxid, refseq, coords, name) {
             this.cacheDOM();
-            this.render(taxid, refseq, coords,name );
+            this.render(taxid, refseq, coords, name);
 
         },
         url: "JBrowse-1.12.1-dev/index.html?data=sparql_data/sparql_data_",
@@ -237,6 +240,26 @@ $(document).ready(function () {
 
 
     };
+
+    jbrowse.init('471472', 'NC_010287.1', ':100000..200000&tracks=genes_canvas_mod', 'Chlamydia trachomatis 434/BU');
+    orgData.init(currentTaxa);
+    geneForm.init('471472');
+    geneData.init([
+        '2-oxoglutarate dehydrogenase complex subunit dihydrolipoyllysine-residue succinyltransferase CTL0311',
+        '5858187',
+        'http://www.wikidata.org/entity/Q21168910',
+        'CTL0311',
+        '385948',
+        '387045'
+    ]);
+
+    proteinData.init([
+        '2-oxoglutarate dehydrogenase complex subunit dihydrolipoyllysine-residue succinyltransferase CTL0311',
+        'A0A0H3MBK1',
+        'http://www.wikidata.org/entity/Q21172795',
+        'YP_001654394'
+    ]);
+    getGOTerms('A0A0H3MBK1');
 //End Jbrowse module
 
 
