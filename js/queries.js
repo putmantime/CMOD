@@ -77,7 +77,7 @@ var getGenes = function (taxid, callbackOnSuccess) {
                     genes['protein'] = pqid;
 
                 }
-                
+
                 genes = {
                     'label': element['geneLabel']['value'],
                     'locustag': element['locustag']['value'],
