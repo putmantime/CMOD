@@ -67,17 +67,6 @@ var getGenes = function (taxid, callbackOnSuccess) {
             $.each(geneData, function (key, element) {
                 var gdid = element['gene']['value'].split("/");
                 var gqid = gdid.slice(-1)[0];
-
-                if (element.hasOwnProperty('protein')) {
-                     var pdid = element['protein']['value'].split("/");
-                     var pqid = pdid.slice(-1)[0];
-                    genes['proteinLabel'] = element['proteinLabel']['value'];
-                    genes['uniprot'] = element['uniprot']['value'];
-                    genes['refseqProtein'] = element['refseqProtein']['value'];
-                    genes['protein'] = pqid;
-
-                }
-
                 genes = {
                     'label': element['geneLabel']['value'],
                     'locustag': element['locustag']['value'],
@@ -86,6 +75,15 @@ var getGenes = function (taxid, callbackOnSuccess) {
                     'genomicend': element['genomicend']['value'],
                     'gqid': gqid
                 };
+
+                if (element.hasOwnProperty('protein')) {
+                    var pdid = element['protein']['value'].split("/");
+                    var pqid = pdid.slice(-1)[0];
+                    genes['proteinLabel'] = element['proteinLabel']['value'];
+                    genes['uniprot'] = element['uniprot']['value'];
+                    genes['refseqProtein'] = element['refseqProtein']['value'];
+                    genes['protein'] = pqid;
+                }
 
                 geneTags.push(genes);
 
@@ -97,8 +95,8 @@ var getGenes = function (taxid, callbackOnSuccess) {
 
 };
 
-var getGOTerms = function (uniprot) {
-    var goTerms = [];
+var getGOTerms = function (uniprot, callBackonSuccess) {
+    var goTerms = {};
     var goQuery = [
         "SELECT distinct ?pot_go ?goterm_label ?goID ?goclass ?goclass_label WHERE {",
         "?protein wdt:P352",
@@ -115,37 +113,37 @@ var getGOTerms = function (uniprot) {
         "FILTER (LANG(?goclass_label) = \"en\")}"
 
     ].join(" ");
-
+    console.log(endpoint + goQuery);
 
     $.ajax({
         type: "GET",
-        url: "https://query.wikidata.org/sparql?format=json&query=" + goQuery,
+        url: endpoint + goQuery,
         dataType: 'json',
         success: function (data) {
+            var mf = [];
+            var bp = [];
+            var cc = [];
 
             $.each(data['results']['bindings'], function (key, element) {
-
-                var goinput = "<div class=\"row main-dataul\"><div class=\"col-md-8\"><h5>" +
-                    element['goterm_label']['value'] + "</h5></div>" +
-                    "<div class=\"col-md-4\">" +
-                    "<a target=\"_blank\" href=http://amigo.geneontology.org/amigo/term/" + element['goID']['value'] + "><h5>" +
-                    element['goID']['value'] + "</h5></a>" +
-                    "</div></div>";
-
-
-                if (element['goclass_label']['value'] == 'biological process') {
-                    $("#bioprocdata").append(goinput);
+                if (element['goclass_label']['value'] == 'biological_process') {
+                    console.log(element);
+                    bp.push(element);
                 }
                 if (element['goclass_label']['value'] == 'molecular function') {
-                    $("#molfuncdata").append(goinput);
+                    console.log(element);
+                    mf.push(element);
                 }
                 if (element['goclass_label']['value'] == 'cellular component') {
-                    $("#celcompdata").append(goinput);
+                    console.log(element);
+                    cc.push(element);
                 }
 
+
             });
-
-
+            goTerms['molecularFunction'] = mf;
+            goTerms['biologicalProcess'] = bp;
+            goTerms['cellularComponent'] = cc;
+            callBackonSuccess(goTerms);
         }
     });
 

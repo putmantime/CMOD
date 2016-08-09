@@ -1,12 +1,11 @@
 $(document).ready(function () {
-    //var currentTaxa;
-    var currentTaxa = {
-                        'Name': 'Chlamydia trachomatis 434/BU',
-                        'Taxid': '471472',
-                        'QID': 'Q20800254',
-                        'RefSeq': 'NC_010287.1'
-                    };
-    var currentTaxa = ['Chlamydia trachomatis 434/BU', '471472', 'Q20800254', 'NC_010287.1'];
+    var currentTaxa;
+    //var currentTaxa = {
+    //    'Name': 'Chlamydia trachomatis 434/BU',
+    //    'Taxid': '471472',
+    //    'QID': 'Q20800254',
+    //    'RefSeq': 'NC_010287.1'
+    //};
 
     //Begin form modules
     //organism selection form module
@@ -35,7 +34,6 @@ $(document).ready(function () {
                         'QID': ui.item.qid,
                         'RefSeq': ui.item.refseq
                     };
-
 
                     //initiate gene form with organism data
                     geneForm.init(currentTaxa.Taxid);
@@ -78,8 +76,7 @@ $(document).ready(function () {
             this.$input = this.$gf.find('input');
 
         },
-        geneData: function(taxid) {
-            console.log(taxid);
+        geneData: function (taxid) {
             var geneinput = this.$input;
             getGenes(taxid, function (geneTags) {
                 geneinput.autocomplete({
@@ -87,6 +84,7 @@ $(document).ready(function () {
                     source: geneTags,
                     autoFocus: true,
                     select: function (event, ui) {
+                        //$("#geneData, #protData, .main-go-data").html("");
                         geneinput.val("");
 
                         this.currentGene = [
@@ -100,11 +98,14 @@ $(document).ready(function () {
                         this.currentProtein = [
                             ui.item.proteinLabel,
                             ui.item.uniprot,
-                            ui.item.refseqProtein,
-                            ui.item.pqid
+                            ui.item.protein,
+                            ui.item.refseqProtein
+
                         ];
+
                         //get GO Terms for this gene/protein
-                        getGOTerms(this.currentProtein[1]);
+                        goData.init(this.currentProtein[1]);
+
                         //Render the data into the gene and protein boxes
                         geneData.init(this.currentGene);
                         proteinData.init(this.currentProtein);
@@ -127,70 +128,62 @@ $(document).ready(function () {
             })
         }
 
-
-
-
-
-
     };
-
-
 
 
     //Go form module
-        var goForm = {
-        init: function () {
-            this.cacheDOM();
-            this.acsource();
-        },
-        cacheDOM: function () {
-            this.$of = $("#go");
-            this.$input = this.$of.find('input');
-        },
-        acsource: function () {
-            var orginput = this.$input;
-            orginput.autocomplete({
-                minLength: 0,
-                source: getOrgs(),
-                autoFocus: true,
-                select: function (event, ui) {
-                    orginput.val("");
-                    $("#geneData, #protData, .main-go-data").html("");
-
-                    currentTaxa = {
-                        'Name': ui.item.label,
-                        'Taxid': ui.item.taxid,
-                        'QID': ui.item.qid,
-                        'RefSeq': ui.item.refseq
-                    };
-
-                    //initiate gene form with organism data
-                    geneForm.init(currentTaxa.Taxid);
-                    //render organism data
-                    orgData.init(currentTaxa);
-                    //launch jbrowse
-                    jbrowse.init(
-                        currentTaxa.Taxid,
-                        currentTaxa.RefSeq,
-                        ":100000..200000&tracks=genes_canvas_mod",
-                        currentTaxa.Name
-                    );
-                    return false;
-                }
-            })
-                //custom template for org search box
-                .autocomplete("instance")._renderItem = function (ul, item) {
-                return $("<li>")
-                    .append("<div class='main-data' style=\"border-bottom: solid black 1px\"><i><strong>" +
-                    item.label + "</strong></i><br>Taxid: " + item.taxid + "<br>Wikidata: " +
-                    item.qid + "</div>")
-                    .appendTo(ul);
-            };
-        }
-    };
-
-
+    //var goForm = {
+    //    init: function () {
+    //        this.cacheDOM();
+    //        this.acsource();
+    //    },
+    //    cacheDOM: function () {
+    //        this.$of = $("#go");
+    //        this.$input = this.$of.find('input');
+    //    },
+    //    acsource: function () {
+    //        var orginput = this.$input;
+    //        orginput.autocomplete({
+    //            minLength: 0,
+    //            source: getOrgs(),
+    //            autoFocus: true,
+    //            select: function (event, ui) {
+    //                orginput.val("");
+    //                $("#geneData, #protData, .main-go-data").html("");
+    //
+    //                currentTaxa = {
+    //                    'Name': ui.item.label,
+    //                    'Taxid': ui.item.taxid,
+    //                    'QID': ui.item.qid,
+    //                    'RefSeq': ui.item.refseq
+    //                };
+    //
+    //                //initiate gene form with organism data
+    //                geneForm.init(currentTaxa.Taxid);
+    //                //render organism data
+    //                orgData.init(currentTaxa);
+    //                //launch jbrowse
+    //                jbrowse.init(
+    //                    currentTaxa.Taxid,
+    //                    currentTaxa.RefSeq,
+    //                    ":100000..200000&tracks=genes_canvas_mod",
+    //                    currentTaxa.Name
+    //                );
+    //                return false;
+    //            }
+    //        })
+    //            //custom template for org search box
+    //            .autocomplete("instance")._renderItem = function (ul, item) {
+    //            return $("<li>")
+    //                .append("<div class='main-data' style=\"border-bottom: solid black 1px\"><i><strong>" +
+    //                item.label + "</strong></i><br>Taxid: " + item.taxid + "<br>Wikidata: " +
+    //                item.qid + "</div>")
+    //                .appendTo(ul);
+    //        };
+    //    }
+    //};
     //End form modules
+
 
     //Begin data rendering modules
     //render the organism data in the Organism box
@@ -245,6 +238,7 @@ $(document).ready(function () {
 
         },
         render: function (gene) {
+            console.log(gene);
             var data = {
                 'gene': gene
             };
@@ -265,6 +259,7 @@ $(document).ready(function () {
 
 
     };
+
     var proteinData = {
         init: function (protein) {
             this.cacheDOM();
@@ -279,6 +274,7 @@ $(document).ready(function () {
 
         },
         render: function (protein) {
+            console.log(protein);
 
             var data = {
                 'protein': protein
@@ -286,7 +282,7 @@ $(document).ready(function () {
 
             //this.$ul.html(Mustache.render(this.template, data));
             this.$protD.html(
-                "<div class='main-data'><h4>Protein Name:</h4><i>" + data.protein[0] + "</i></div>" +
+                "<div class='main-data'><h4>Protein Name:</h4>" + data.protein[0] + "</div>" +
                 "<div class='main-data'><h4>UniProt ID:</h4>" + data.protein[1] + "</div>" +
                 "<div class='main-data'><h4>Wikidata ID:</h4>" + data.protein[2] + "</div>" +
                 "<div class='main-data'><h4>RefSeq ID:</h4>" + data.protein[3] + "</div>"
@@ -294,7 +290,57 @@ $(document).ready(function () {
         }
 
     };
+
+
+    var goData = {
+        init: function (uniprot) {
+            this.cacheDOM();
+            this.goTermData(uniprot);
+        },
+        goTermData: function (uniprot) {
+
+            getGOTerms(uniprot, function (goTerms) {
+                goData.render(goTerms);
+            });
+
+        },
+        cacheDOM: function () {
+            this.$go = $('#goBoxes');
+            this.$mf = this.$go.find('#molfuncdata');
+            this.$bp = this.$go.find('#bioprocdata');
+            this.$cc = this.$go.find('#celcompdata');
+
+        },
+        render: function (goTerms) {
+            console.log(goTerms);
+            var mf = this.$mf;
+            var bp = this.$bp;
+            var cc = this.$cc;
+            $.each(goTerms['molecularFunction'], function (key, element) {
+                mf.append(goData.goInput(element['goterm_label']['value'], element['goID']['value']));
+                console.log("mf" + element['goterm_label']['value']);
+            });
+            $.each(goTerms['biologicalProcess'], function (key, element) {
+                bp.append(goData.goInput(element['goterm_label']['value'], element['goID']['value']));
+                console.log("bp" + element['goterm_label']['value']);
+            });
+            $.each(goTerms['cellularComponent'], function (key, element) {
+                cc.append(goData.goInput(element['goterm_label']['value'], element['goID']['value']));
+                console.log("cc" + element['goterm_label']['value']);
+            });
+
+        },
+        goInput: function (golable, goid) {
+            return "<div class=\"row main-dataul\"><div class=\"col-md-8\"><h5>" +
+                golable + "</h5></div>" +
+                "<div class=\"col-md-4\">" +
+                "<a target=\"_blank\" href=http://amigo.geneontology.org/amigo/term/" + goid + "><h5>" +
+                goid + "</h5></a>" +
+                "</div></div>";
+        }
+    };
 //End data rendering modules
+
 
 //    Begin JBrowse Module
 
@@ -330,28 +376,28 @@ $(document).ready(function () {
 
 
     };
-
-    jbrowse.init('471472', 'NC_010287.1', ':100000..200000&tracks=genes_canvas_mod', 'Chlamydia trachomatis 434/BU');
-    orgData.init(currentTaxa);
-    geneForm.init('471472');
-    geneData.init([
-        '2-oxoglutarate dehydrogenase complex subunit dihydrolipoyllysine-residue succinyltransferase CTL0311',
-        '5858187',
-        'http://www.wikidata.org/entity/Q21168910',
-        'CTL0311',
-        '385948',
-        '387045'
-    ]);
-
-    proteinData.init([
-        '2-oxoglutarate dehydrogenase complex subunit dihydrolipoyllysine-residue succinyltransferase CTL0311',
-        'A0A0H3MBK1',
-        'http://www.wikidata.org/entity/Q21172795',
-        'YP_001654394'
-    ]);
-    getGOTerms('A0A0H3MBK1');
 //End Jbrowse module
-
+//    Begin preload
+//    jbrowse.init('471472', 'NC_010287.1', ':100000..200000&tracks=genes_canvas_mod', 'Chlamydia trachomatis 434/BU');
+//    orgData.init(currentTaxa);
+//    geneForm.init('471472');
+//    geneData.init([
+//        '2-oxoglutarate dehydrogenase complex subunit dihydrolipoyllysine-residue succinyltransferase CTL0311',
+//        '5858187',
+//        'http://www.wikidata.org/entity/Q21168910',
+//        'CTL0311',
+//        '385948',
+//        '387045'
+//    ]);
+//
+//    proteinData.init([
+//        '2-oxoglutarate dehydrogenase complex subunit dihydrolipoyllysine-residue succinyltransferase CTL0311',
+//        'A0A0H3MBK1',
+//        'http://www.wikidata.org/entity/Q21172795',
+//        'YP_001654394'
+//    ]);
+//    getGOTerms('A0A0H3MBK1');
+//
 
 });
 
