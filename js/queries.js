@@ -33,7 +33,7 @@ var getOrgs = function () {
 };
 
 
-var getGenes = function (taxid) {
+var getGenes = function (taxid, callbackOnSuccess) {
     var genes = {};
     var geneTags = [];
     var queryGenes = ["SELECT  ?gene ?specieswd ?specieswdLabel ?taxid ?genomeaccession ?geneLabel ",
@@ -57,7 +57,7 @@ var getGenes = function (taxid) {
         "bd:serviceParam wikibase:language \"en\" .",
         "}}"
     ].join(" ");
-
+    console.log(endpoint + queryGenes);
     $.ajax({
         type: "GET",
         url: endpoint + queryGenes,
@@ -65,30 +65,34 @@ var getGenes = function (taxid) {
         success: function (data) {
             var geneData = data['results']['bindings'];
             $.each(geneData, function (key, element) {
+                var gdid = element['gene']['value'].split("/");
+                var gqid = gdid.slice(-1)[0];
+
+                if (element.hasOwnProperty('protein')) {
+                     var pdid = element['protein']['value'].split("/");
+                     var pqid = pdid.slice(-1)[0];
+                    genes['proteinLabel'] = element['proteinLabel']['value'];
+                    genes['uniprot'] = element['uniprot']['value'];
+                    genes['refseqProtein'] = element['refseqProtein']['value'];
+                    genes['protein'] = pqid;
+
+                }
+                
                 genes = {
                     'label': element['geneLabel']['value'],
                     'locustag': element['locustag']['value'],
                     'id': element['entrezid']['value'],
                     'genomicstart': element['genomicstart']['value'],
                     'genomicend': element['genomicend']['value'],
-                    'gene': element['gene']['value'],
-                    'proteinLabel': element['proteinLabel']['value'],
-                    'uniprot': element['uniprot']['value'],
-                    'refseqProtein': element['refseqProtein']['value'],
-                    'protein': element['protein']['value'],
-                    'gqid': element['gene']['value'],
-                    'pqid': element['protein']['value']
-
+                    'gqid': gqid
                 };
 
                 geneTags.push(genes);
 
             });
-
-
+            callbackOnSuccess(geneTags);
         }
     });
-    return geneTags;
 
 
 };
@@ -111,7 +115,7 @@ var getGOTerms = function (uniprot) {
         "FILTER (LANG(?goclass_label) = \"en\")}"
 
     ].join(" ");
-        console.log(goQuery);
+
 
     $.ajax({
         type: "GET",
@@ -120,7 +124,7 @@ var getGOTerms = function (uniprot) {
         success: function (data) {
 
             $.each(data['results']['bindings'], function (key, element) {
-                console.log(element);
+
                 var goinput = "<div class=\"row main-dataul\"><div class=\"col-md-8\"><h5>" +
                     element['goterm_label']['value'] + "</h5></div>" +
                     "<div class=\"col-md-4\">" +

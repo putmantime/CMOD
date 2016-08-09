@@ -68,7 +68,12 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <div id="orgData" class="main-data-box"></div>
+                        <div id="orgData" class="main-data-box">
+                            <div id="taxid" class="main-data"></div>
+                            <div id="QID" class="main-data"></div>
+                            <div id="RefSeq" class="main-data"></div>
+
+                        </div>
                     </div>
                 </div>
 
@@ -94,8 +99,6 @@
 
 
 
-
-
                 </script>
             </div>
 
@@ -114,7 +117,9 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <div id="geneData" class="main-data-box"></div>
+                        <div id="geneData" class="main-data-box">
+
+                        </div>
 
                     </div>
                 </div>
@@ -132,24 +137,54 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div id="protDataBox" class="main-data-box">
-                            <div id="protData"></div>
+                            <div id="protData">
+
+
+                            </div>
                             <div id="goBoxes">
                                 <div class="main-go-box row">
                                     <div class="main-go-boxheader">
                                         <div class="col-md-8"><h4>Molecular Function</h4></div>
                                         <div class="col-md-4"><h4>Gene Ontology ID</h4></div>
-
                                     </div>
                                     <div id="molfuncdata" class="main-go-data"></div>
+                                    <form class="main-go-form form-inline ui-widget">
+                                        <div class="form-group">
+                                            <label for="molfuncform"></label>
+                                            <input type="text" class="form-control" id="molfuncform"
+                                                   placeholder="Molecular Function" name="molfuncFormItem">
+                                            <label for="molfuncrefform"></label>
+                                            <input type="text" class="form-control" id="molfuncrefform"
+                                                   placeholder="PMID" name="molfuncrefFormItem">
+                                            <button id="molfuncbutton" class="btn btn-primary" type="submit">Add to Wikidata Item</button>
+
+                                        </div>
+                                    </form>
+
 
                                 </div>
                                 <div class="main-go-box row">
                                     <div class="main-go-boxheader">
                                         <div class="col-md-8"><h4>Biological Process</h4></div>
                                         <div class="col-md-4"><h4>Gene Ontology ID</h4></div>
-
                                     </div>
                                     <div id="bioprocdata" class="main-go-data"></div>
+
+                                    <form class="main-go-form form-inline ui-widget">
+                                        <div class="form-group">
+                                            <label for="bioprocform"></label>
+                                            <input type="text" class="form-control" id="bioprocform"
+                                                   placeholder="Biological Process" name="bioprocFormItem">
+                                            <label for="bioprocrefform"></label>
+                                            <input type="text" class="form-control" id="bioprocrefform"
+                                                   placeholder="PMID" name="bioprocrefFormItem">
+                                            <button id="bioprocbutton" class="btn btn-primary" type="submit">Add to Wikidata Item</button>
+
+                                        </div>
+                                    </form>
+
+
+
                                 </div>
                                 <div class="main-go-box row">
                                     <div class="main-go-boxheader">
@@ -157,6 +192,19 @@
                                         <div class="col-md-4"><h4>Gene Ontology ID</h4></div>
                                     </div>
                                     <div id="celcompdata" class="main-go-data"></div>
+                                    <div id="celcompform" class="main-go-form"></div>
+                                    <form class="main-go-form form-inline ui-widget">
+                                        <div class="form-group">
+                                            <label for="celcompform"></label>
+                                            <input type="text" class="form-control" id="celcompform"
+                                                   placeholder="Cellular Component" name="celcompFormItem">
+                                            <label for="celcomprefform"></label>
+                                            <input type="text" class="form-control" id="celcomprefform"
+                                                   placeholder="PMID" name="celcomprefFormItem">
+                                            <button id="celcompbutton" class="btn btn-primary" type="submit">Add to Wikidata Item</button>
+
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -212,17 +260,6 @@
 <!--?</body>-->
 
 
-<!--?<ul id="organism">-->
-<!--?<script id="org-template" type="text/template">-->
-<!--?{{#organism}}-->
-<!--?<li>-->
-<!--?<span>{{.}}</span>-->
-<!--?</li>-->
-<!--?{{/organism}}-->
-<!--?</script>-->
-<!--?</ul>-->
-
-
 <!--?<ul id="gene">-->
 <!--?<script id="gene-template" type="text/template">-->
 <!--?{{#gene}}-->
@@ -242,4 +279,3 @@
 <!--?</li>-->
 <!--?{{/protein}}-->
 <!--?</script>-->
-<!--?</ul>-->
