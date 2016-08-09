@@ -55,8 +55,8 @@ $(document).ready(function () {
                 //custom template for org search box
                 .autocomplete("instance")._renderItem = function (ul, item) {
                 return $("<li>")
-                    .append("<div style=\"border-bottom: solid black 1px\"><i><strong>" +
-                    item.label + "</strong></i><br>Taxid: " + item.taxid + "<br>Wikidata: " +
+                    .append("<div class='main-data' style=\"border-bottom: solid black 1px\"><i><u><strong>" +
+                    item.label + "</strong></u></i><br>Taxid: " + item.taxid + "<br>Wikidata: " +
                     item.qid + "</div>")
                     .appendTo(ul);
             };
@@ -119,8 +119,8 @@ $(document).ready(function () {
                     //custom template for gene search box
                     .autocomplete("instance")._renderItem = function (ul, item) {
                     return $("<li>")
-                        .append("<div style=\"border-bottom: solid black 1px\"><strong>" + item.label +
-                        "</strong><br>Entrez ID:" + item.id + "<br>Wikidata: " + item.gqid + "</div>")
+                        .append("<div class='main-data' style=\"border-bottom: solid black 1px\"><strong><u>" + item.label +
+                        "</u></strong><br>Entrez ID:" + item.id + "<br>Wikidata: " + item.gqid + "</div>")
                         .appendTo(ul);
                 };
 
@@ -181,7 +181,7 @@ $(document).ready(function () {
                 //custom template for org search box
                 .autocomplete("instance")._renderItem = function (ul, item) {
                 return $("<li>")
-                    .append("<div style=\"border-bottom: solid black 1px\"><i><strong>" +
+                    .append("<div class='main-data' style=\"border-bottom: solid black 1px\"><i><strong>" +
                     item.label + "</strong></i><br>Taxid: " + item.taxid + "<br>Wikidata: " +
                     item.qid + "</div>")
                     .appendTo(ul);
