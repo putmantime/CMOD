@@ -1,11 +1,11 @@
 $(document).ready(function () {
-    var currentTaxa;
-    //var currentTaxa = {
-    //    'Name': 'Chlamydia trachomatis 434/BU',
-    //    'Taxid': '471472',
-    //    'QID': 'Q20800254',
-    //    'RefSeq': 'NC_010287.1'
-    //};
+    //var currentTaxa;
+    var currentTaxa = {
+        'Name': 'Chlamydia trachomatis 434/BU',
+        'Taxid': '471472',
+        'QID': 'Q20800254',
+        'RefSeq': 'NC_010287.1'
+    };
 
     //Begin form modules
     //organism selection form module
@@ -378,26 +378,25 @@ $(document).ready(function () {
     };
 //End Jbrowse module
 //    Begin preload
-//    jbrowse.init('471472', 'NC_010287.1', ':100000..200000&tracks=genes_canvas_mod', 'Chlamydia trachomatis 434/BU');
-//    orgData.init(currentTaxa);
-//    geneForm.init('471472');
-//    geneData.init([
-//        '2-oxoglutarate dehydrogenase complex subunit dihydrolipoyllysine-residue succinyltransferase CTL0311',
-//        '5858187',
-//        'http://www.wikidata.org/entity/Q21168910',
-//        'CTL0311',
-//        '385948',
-//        '387045'
-//    ]);
-//
-//    proteinData.init([
-//        '2-oxoglutarate dehydrogenase complex subunit dihydrolipoyllysine-residue succinyltransferase CTL0311',
-//        'A0A0H3MBK1',
-//        'http://www.wikidata.org/entity/Q21172795',
-//        'YP_001654394'
-//    ]);
-//    getGOTerms('A0A0H3MBK1');
-//
+    jbrowse.init('471472', 'NC_010287.1', ':100000..200000&tracks=genes_canvas_mod', 'Chlamydia trachomatis 434/BU');
+    orgData.init(currentTaxa);
+    geneForm.init('471472');
+    geneData.init([
+        '2-oxoglutarate dehydrogenase complex subunit dihydrolipoyllysine-residue succinyltransferase CTL0311',
+        '5858187',
+        'http://www.wikidata.org/entity/Q21168910',
+        'CTL0311',
+        '385948',
+        '387045'
+    ]);
+
+    proteinData.init([
+        '2-oxoglutarate dehydrogenase complex subunit dihydrolipoyllysine-residue succinyltransferase CTL0311',
+        'A0A0H3MBK1',
+        'http://www.wikidata.org/entity/Q21172795',
+        'YP_001654394'
+    ]);
+    goData.init('A0A0H3MBK1');
 
 });
 

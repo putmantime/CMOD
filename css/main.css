@@ -13,7 +13,7 @@ iframe {
 .main-data-box{
     padding:10px;
     overflow: auto;
-    height: 350px;
+    height: 480px;
 
 }
 
@@ -87,7 +87,7 @@ iframe {
     padding-right: 15px;
 }
 .main-gene-protein-row{
-    height: 450px;
+    height: 580px;
 
 }
 
