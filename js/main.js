@@ -1,5 +1,6 @@
 $(document).ready(function () {
 //////////////////////////////////////////Begin Global variables////////////////////////////////////////////////////////
+    console.log("hello");
     var currentTaxa = {
         'Name': 'Chlamydia trachomatis 434/BU',
         'Taxid': '471472',
@@ -25,6 +26,10 @@ $(document).ready(function () {
                 source: getOrgs(),
                 autoFocus: true,
                 select: function (event, ui) {
+
+                    $('form').each(function () {
+                        this.reset()
+                    });
                     orginput.val("");
                     $("#geneData, #protData, .main-go-data").html("");
 
@@ -83,7 +88,10 @@ $(document).ready(function () {
                     source: geneTags,
                     autoFocus: true,
                     select: function (event, ui) {
-                        //$("#geneData, #protData, .main-go-data").html("");
+                        $('form').each(function () {
+                            this.reset()
+                        });
+                        $("#geneData, #protData, .main-go-data").html("");
                         geneinput.val("");
 
                         this.currentGene = [
@@ -130,7 +138,7 @@ $(document).ready(function () {
     };
 
 
-//////GO selection form module//////
+//////Go form module//////
     var goForm = {
         endpoint: "https://query.wikidata.org/sparql?format=json&query=",
         init: function () {
@@ -171,6 +179,9 @@ $(document).ready(function () {
                     console.log(request.term);
                 },
                 select: function (event, ui) {
+                    $('form').each(function () {
+                        this.reset()
+                    });
                     console.log(ui.item.id);
 
 
@@ -299,10 +310,12 @@ $(document).ready(function () {
         init: function (uniprot) {
             this.cacheDOM();
             this.goTermData(uniprot);
+
         },
         goTermData: function (uniprot) {
 
             getGOTerms(uniprot, function (goTerms) {
+                console.log(goTerms);
                 goData.render(goTerms);
             });
 
@@ -321,15 +334,15 @@ $(document).ready(function () {
             var cc = this.$cc;
             $.each(goTerms['molecularFunction'], function (key, element) {
                 mf.append(goData.goInput(element['goterm_label']['value'], element['goID']['value']));
-                //console.log("mf" + element['goterm_label']['value']);
+                console.log("mf" + element['goterm_label']['value']);
             });
             $.each(goTerms['biologicalProcess'], function (key, element) {
                 bp.append(goData.goInput(element['goterm_label']['value'], element['goID']['value']));
-                //console.log("bp" + element['goterm_label']['value']);
+                console.log("bp" + element['goterm_label']['value']);
             });
             $.each(goTerms['cellularComponent'], function (key, element) {
                 cc.append(goData.goInput(element['goterm_label']['value'], element['goID']['value']));
-                //console.log("cc" + element['goterm_label']['value']);
+                console.log("cc" + element['goterm_label']['value']);
             });
 
         },

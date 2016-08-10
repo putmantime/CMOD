@@ -137,7 +137,17 @@ iframe {
 
 .goTermForm.ui-autocomplete-loading {
     background-image: url('../img/spin.gif');
-    background-position: right center;
+    background-position: left center;
     background-repeat: no-repeat;
 }
 
+.ui-autocomplete {
+    max-height: 200px;
+    max-width: 600px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+
+}
+
+.form-control{
+    padding-left: 25px;}
