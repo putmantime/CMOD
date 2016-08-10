@@ -1,9 +1,14 @@
 $(document).ready(function () {
-
-    var currentTaxa = ['Chlamydia trachomatis 434/BU', '471472', 'Q20800254', 'NC_010287.1'];
-
-    //Begin form modules
-    //organism selection form module
+//////////////////////////////////////////Begin Global variables////////////////////////////////////////////////////////
+    var currentTaxa = {
+        'Name': 'Chlamydia trachomatis 434/BU',
+        'Taxid': '471472',
+        'QID': 'Q20800254',
+        'RefSeq': 'NC_010287.1'
+    };
+///////////////////////////////////////////End Global Variables/////////////////////////////////////////////////////////
+///////////////////////////////////////////Begin form modules///////////////////////////////////////////////////////////
+//////organism selection form module//////
     var orgForm = {
         init: function () {
             this.cacheDOM();
@@ -21,25 +26,35 @@ $(document).ready(function () {
                 autoFocus: true,
                 select: function (event, ui) {
                     orginput.val("");
-                    $("#orgData, #geneData, #protData, .main-go-data").html("");
+                    $("#geneData, #protData, .main-go-data").html("");
 
+                    currentTaxa = {
+                        'Name': ui.item.label,
+                        'Taxid': ui.item.taxid,
+                        'QID': ui.item.qid,
+                        'RefSeq': ui.item.refseq
+                    };
 
-                    // currentTaxa = [orgname, taxid, qid, refseq accession]
-                    currentTaxa = [ui.item.label, ui.item.taxid, ui.item.qid, ui.item.refseq];
                     //initiate gene form with organism data
-                    geneForm.init(currentTaxa[1]);
+                    geneForm.init(currentTaxa.Taxid);
+
                     //render organism data
                     orgData.init(currentTaxa);
                     //launch jbrowse
-                    jbrowse.init(currentTaxa[1], currentTaxa[3], ":100000..200000&tracks=genes_canvas_mod", currentTaxa[0]);
+                    jbrowse.init(
+                        currentTaxa.Taxid,
+                        currentTaxa.RefSeq,
+                        ":100000..200000&tracks=genes_canvas_mod",
+                        currentTaxa.Name
+                    );
                     return false;
                 }
             })
                 //custom template for org search box
                 .autocomplete("instance")._renderItem = function (ul, item) {
                 return $("<li>")
-                    .append("<div style=\"border-bottom: solid black 1px\"><i><strong>" +
-                    item.label + "</strong></i><br>Taxid: " + item.taxid + "<br>Wikidata: " +
+                    .append("<div class='main-data' style=\"border-bottom: solid black 1px\"><i><u><strong>" +
+                    item.label + "</strong></u></i><br>Taxid: " + item.taxid + "<br>Wikidata: " +
                     item.qid + "</div>")
                     .appendTo(ul);
             };
@@ -47,72 +62,134 @@ $(document).ready(function () {
     };
     orgForm.init();
 
-
-    //gene selection form module
+//////gene selection form module//////
     var geneForm = {
         currentGene: [],
-        currentProteins: [],
+        currentProtein: [],
         init: function (taxid) {
             this.cacheDOM();
-            this.acsource(taxid);
-
+            this.geneData(taxid);
         },
         cacheDOM: function () {
             this.$gf = $("#geneFormModule");
             this.$input = this.$gf.find('input');
 
         },
-
-        acsource: function (taxid) {
+        geneData: function (taxid) {
             var geneinput = this.$input;
-            geneinput.autocomplete({
-                minLength: 0,
-                source: getGenes(taxid),
-                autoFocus: true,
-                select: function (event, ui) {
-                    geneinput.val("");
-                    this.currentGene = [
-                        ui.item.label,
-                        ui.item.id,
-                        ui.item.gqid,
-                        ui.item.locustag,
-                        ui.item.genomicstart,
-                        ui.item.genomicend
-                    ];
-                    this.currentProtein = [
-                        ui.item.proteinLabel,
-                        ui.item.uniprot,
-                        ui.item.refseqProtein,
-                        ui.item.pqid
-                    ];
-                    //get GO Terms for this gene/protein
-                    getGOTerms(this.currentProtein[1]);
-                    //Render the data into the gene and protein boxes
-                    geneData.init(this.currentGene);
-                    proteinData.init(this.currentProtein);
-                    //focus jbrowse on selected gene
-                    var gstart = this.currentGene[4] - 400;
-                    var gend = this.currentGene[5] - (-400);
-                    jbrowse.init(currentTaxa[1], currentTaxa[3], ":" + gstart + ".." + gend, currentTaxa[0]);
-                    return false;
-                }
-            })
-                //custom template for gene search box
-                .autocomplete("instance")._renderItem = function (ul, item) {
-                return $("<li>")
-                    .append("<div style=\"border-bottom: solid black 1px\"><strong>" + item.label +
-                    "</strong><br>Entrez ID:" + item.id + "<br>Wikidata: " + item.gqid + "</div>")
-                    .appendTo(ul);
-            };
+            getGenes(taxid, function (geneTags) {
+                geneinput.autocomplete({
+                    minLength: 2,
+                    source: geneTags,
+                    autoFocus: true,
+                    select: function (event, ui) {
+                        //$("#geneData, #protData, .main-go-data").html("");
+                        geneinput.val("");
 
+                        this.currentGene = [
+                            ui.item.label,
+                            ui.item.id,
+                            ui.item.gqid,
+                            ui.item.locustag,
+                            ui.item.genomicstart,
+                            ui.item.genomicend
+                        ];
+                        this.currentProtein = [
+                            ui.item.proteinLabel,
+                            ui.item.uniprot,
+                            ui.item.protein,
+                            ui.item.refseqProtein
+
+                        ];
+
+                        //get GO Terms for this gene/protein
+                        goData.init(this.currentProtein[1]);
+
+                        //Render the data into the gene and protein boxes
+                        geneData.init(this.currentGene);
+                        proteinData.init(this.currentProtein);
+
+                        //focus jbrowse on selected gene
+                        var gstart = this.currentGene[4] - 400;
+                        var gend = this.currentGene[5] - (-400);
+                        jbrowse.init(currentTaxa.Taxid, currentTaxa.RefSeq, ":" + gstart + ".." + gend, currentTaxa.Name);
+                        return false;
+                    }
+                })
+                    //custom template for gene search box
+                    .autocomplete("instance")._renderItem = function (ul, item) {
+                    return $("<li>")
+                        .append("<div class='main-data' style=\"border-bottom: solid black 1px\"><strong><u>" + item.label +
+                        "</u></strong><br>Entrez ID:" + item.id + "<br>Wikidata: " + item.gqid + "</div>")
+                        .appendTo(ul);
+                };
+
+            })
         }
 
-
     };
-    //End form modules
 
-    //Begin data rendering modules
-    //render the organism data in the Organism box
+
+//////GO selection form module//////
+    var goForm = {
+        endpoint: "https://query.wikidata.org/sparql?format=json&query=",
+        init: function () {
+            this.cacheDOM();
+            this.goTermsAC();
+        },
+        cacheDOM: function () {
+            this.$mfForm = $("#molfuncform");
+
+
+        },
+        goTermsAC: function () {
+            this.$mfForm.autocomplete({
+                delay: 900,
+                minlength: 3,
+                source: function (request, response) {
+                    $.ajax({
+                        type: "GET",
+                        url: goForm.endpoint + ["SELECT DISTINCT ?goTerm ?goTermLabel ?goID WHERE { ?goTerm wdt:P686 ?goID.",
+                            "SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\". ?goTerm rdfs:label ?goTermLabel.}",
+                            "FILTER(CONTAINS(LCASE(?goTermLabel), \"" + request.term + "\"))}"].join(" "),
+                        datatype: 'json',
+                        success: function (data) {
+                            var data_array = [];
+                            var data_hash = {};
+                            $.each(data['results']['bindings'], function (key, element) {
+                                data_hash = {
+                                    'label': element['goTermLabel']['value'],
+                                    'value': element['goTermLabel']['value'] + ": " + element['goID']['value'],
+                                    'id': element['goID']['value'],
+                                    'qid': element['goTerm']['value']
+                                };
+                                data_array.push(data_hash);
+                            });
+                            response(data_array);
+                        }
+                    });
+                    console.log(request.term);
+                },
+                select: function (event, ui) {
+                    console.log(ui.item.id);
+
+
+                }
+            })
+                .autocomplete("instance")._renderItem = function (ul, item) {
+                return $("<li>")
+                    .append("<div class='main-data' style=\"border-bottom: solid black 1px\"><strong><u>" + item.label +
+                    "</u></strong><br>Gene Ontology ID:" + item.id + "<br>Wikidata: " + item.qid + "</div>")
+                    .appendTo(ul);
+            };
+        }
+    };
+    goForm.init();
+//////////////////////////////////////////End form modules//////////////////////////////////////////////////////////////
+
+
+////////////////////////////////////Begin data rendering modules////////////////////////////////////////////////////////
+//////render the organism data in the Organism box//////
     var orgData = {
         init: function (taxData) {
             this.cacheDOM();
@@ -123,24 +200,30 @@ $(document).ready(function () {
             this.$od = $("#orgDataModule");
             this.$ul = this.$od.find('ul');
             this.$orgD = this.$od.find('#orgData');
-            this.template = this.$od.find('#org-template').html();
-
+            this.$tid = this.$od.find('#taxid');
+            this.$qid = this.$od.find('#QID');
+            this.$rsid = this.$od.find('#RefSeq');
+            //this.templateORG = this.$od.find('#org-template').html();
+            //console.log($('#org-template').html());
 
         },
         render: function (taxData) {
-            console.log(taxData);
+
             var data = {
-                'organism': taxData
+                'organism': taxData,
+                'thing': 'thing'
             };
-            //this.$ul.html(Mustache.render(this.template, data));
-            this.$orgD.html(
-                "<div class='main-data'><h4>NCBI Taxonomy ID:</h4>" + taxData[1] + "</div>" +
-                "<div class='main-data'><h4>Wikidata ID:</h4>" + taxData[2] + "</div>" +
-                "<div class='main-data'><h4>NCBI RefSeq Accession:</h4>" + taxData[3] + "</div>"
-            );
+            this.$tid.html("<span><h4>NCBI Taxonomy ID:</h4>" + data['organism']['Taxid'] + "</span>");
+            this.$qid.html("<span><h4>Wikidata Item ID</h4>" + data['organism']['QID'] + "</span>");
+            this.$rsid.html("<span><h4>NCBI RefSeq ID</h4>" + data['organism']['RefSeq'] + "</span>");
+
+            //console.log("Render:" + data['organism'].Name);
+
+            //this.$orgD.html(Mustache.render(this.orgtemplate, data));
+
         }
     };
-
+//////render the gene data in Gene box//////
     var geneData = {
         init: function (gene) {
             this.cacheDOM();
@@ -153,28 +236,33 @@ $(document).ready(function () {
             this.$ul = this.$gd.find('ul');
             this.$geneD = this.$gd.find('#geneData');
 
+
             this.template = this.$gd.find('#gene-template').html();
 
         },
         render: function (gene) {
+            //console.log(gene);
             var data = {
                 'gene': gene
             };
-            console.log(data);
+
             //this.$ul.html(Mustache.render(this.template, data));
+
             this.$geneD.html(
-                "<div class='main-data'><h4>Gene Name:</h4><i>" + data.gene[0] + "</i></div>" +
-                "<div class='main-data'><h4>Entrez ID:</h4>" + data.gene[1] + "</div>" +
-                "<div class='main-data'><h4>Wikidata ID:</h4>" + data.gene[2] + "</div>" +
-                "<div class='main-data'><h4>Locus Tag:</h4>" + data.gene[3] + "</div>" +
-                "<div class='main-data'><h4>Genomic Start:</h4>" + data.gene[4] + "</div>" +
-                "<div class='main-data'><h4>Genomic End:</h4>" + data.gene[5] + "</div>"
+                "<div class='main-data'> <h4>Gene Name:</h4>     " + data.gene[0] + "</div>" +
+                "<div class='main-data'> <h4>Entrez ID:</h4>     " + data.gene[1] + "</div>" +
+                "<div class='main-data'> <h4>Wikidata ID:</h4>   " + data.gene[2] + "</div>" +
+                "<div class='main-data'> <h4>Locus Tag:</h4>     " + data.gene[3] + "</div>" +
+                "<div class='main-data'> <h4>Genomic Start:</h4> " + data.gene[4] + "</div>" +
+                "<div class='main-data'> <h4>Genomic End:</h4>   " + data.gene[5] + "</div>"
             );
+
 
         }
 
 
     };
+//////render the protein dat in the Protein box///////
     var proteinData = {
         init: function (protein) {
             this.cacheDOM();
@@ -189,14 +277,15 @@ $(document).ready(function () {
 
         },
         render: function (protein) {
+            //console.log(protein);
 
             var data = {
                 'protein': protein
             };
-            console.log(data);
+
             //this.$ul.html(Mustache.render(this.template, data));
             this.$protD.html(
-                "<div class='main-data'><h4>Protein Name:</h4><i>" + data.protein[0] + "</i></div>" +
+                "<div class='main-data'><h4>Protein Name:</h4>" + data.protein[0] + "</div>" +
                 "<div class='main-data'><h4>UniProt ID:</h4>" + data.protein[1] + "</div>" +
                 "<div class='main-data'><h4>Wikidata ID:</h4>" + data.protein[2] + "</div>" +
                 "<div class='main-data'><h4>RefSeq ID:</h4>" + data.protein[3] + "</div>"
@@ -204,9 +293,59 @@ $(document).ready(function () {
         }
 
     };
-//End data rendering modules
 
-//    Begin JBrowse Module
+//////render the gene ontology data in the GO boxes//////
+    var goData = {
+        init: function (uniprot) {
+            this.cacheDOM();
+            this.goTermData(uniprot);
+        },
+        goTermData: function (uniprot) {
+
+            getGOTerms(uniprot, function (goTerms) {
+                goData.render(goTerms);
+            });
+
+        },
+        cacheDOM: function () {
+            this.$go = $('#goBoxes');
+            this.$mf = this.$go.find('#molfuncdata');
+            this.$bp = this.$go.find('#bioprocdata');
+            this.$cc = this.$go.find('#celcompdata');
+
+        },
+        render: function (goTerms) {
+            //console.log(goTerms);
+            var mf = this.$mf;
+            var bp = this.$bp;
+            var cc = this.$cc;
+            $.each(goTerms['molecularFunction'], function (key, element) {
+                mf.append(goData.goInput(element['goterm_label']['value'], element['goID']['value']));
+                //console.log("mf" + element['goterm_label']['value']);
+            });
+            $.each(goTerms['biologicalProcess'], function (key, element) {
+                bp.append(goData.goInput(element['goterm_label']['value'], element['goID']['value']));
+                //console.log("bp" + element['goterm_label']['value']);
+            });
+            $.each(goTerms['cellularComponent'], function (key, element) {
+                cc.append(goData.goInput(element['goterm_label']['value'], element['goID']['value']));
+                //console.log("cc" + element['goterm_label']['value']);
+            });
+
+        },
+        goInput: function (golable, goid) {
+            return "<div class=\"row main-dataul\"><div class=\"col-md-8\"><h5>" +
+                golable + "</h5></div>" +
+                "<div class=\"col-md-4\">" +
+                "<a target=\"_blank\" href=http://amigo.geneontology.org/amigo/term/" + goid + "><h5>" +
+                goid + "</h5></a>" +
+                "</div></div>";
+        }
+    };
+///////////////////////////////////////End data rendering modules///////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////Begin JBrowse Module//////////////////////////////////////////////////////////
 
     var jbrowse = {
 
@@ -240,7 +379,8 @@ $(document).ready(function () {
 
 
     };
-
+/////////////////////////////////////////////////End Jbrowse module/////////////////////////////////////////////////////
+////////////////////////////////////////////////////Begin preload///////////////////////////////////////////////////////
     jbrowse.init('471472', 'NC_010287.1', ':100000..200000&tracks=genes_canvas_mod', 'Chlamydia trachomatis 434/BU');
     orgData.init(currentTaxa);
     geneForm.init('471472');
@@ -259,10 +399,8 @@ $(document).ready(function () {
         'http://www.wikidata.org/entity/Q21172795',
         'YP_001654394'
     ]);
-    getGOTerms('A0A0H3MBK1');
-//End Jbrowse module
-
-
+    goData.init('A0A0H3MBK1');
+//////////////////////////////////////////////////////End data preload//////////////////////////////////////////////////
 });
 
 
