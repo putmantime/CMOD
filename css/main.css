@@ -135,7 +135,7 @@ iframe {
     padding: 10px
 }
 
-#molfuncform.ui-autocomplete-loading {
+.goTermForm.ui-autocomplete-loading {
     background-image: url('../img/spin.gif');
     background-position: right center;
     background-repeat: no-repeat;
