@@ -57,7 +57,7 @@ var getGenes = function (taxid, callbackOnSuccess) {
         "bd:serviceParam wikibase:language \"en\" .",
         "}}"
     ].join(" ");
-    console.log(endpoint + queryGenes);
+    //console.log(endpoint + queryGenes);
     $.ajax({
         type: "GET",
         url: endpoint + queryGenes,
@@ -113,7 +113,7 @@ var getGOTerms = function (uniprot, callBackonSuccess) {
         "FILTER (LANG(?goclass_label) = \"en\")}"
 
     ].join(" ");
-    console.log(endpoint + goQuery);
+    //console.log(endpoint + goQuery);
 
     $.ajax({
         type: "GET",
@@ -126,15 +126,15 @@ var getGOTerms = function (uniprot, callBackonSuccess) {
 
             $.each(data['results']['bindings'], function (key, element) {
                 if (element['goclass_label']['value'] == 'biological_process') {
-                    console.log(element);
+                    //console.log(element);
                     bp.push(element);
                 }
                 if (element['goclass_label']['value'] == 'molecular function') {
-                    console.log(element);
+                    //console.log(element);
                     mf.push(element);
                 }
                 if (element['goclass_label']['value'] == 'cellular component') {
-                    console.log(element);
+                    //console.log(element);
                     cc.push(element);
                 }
 
@@ -146,6 +146,20 @@ var getGOTerms = function (uniprot, callBackonSuccess) {
             callBackonSuccess(goTerms);
         }
     });
+
+};
+
+
+var getAllGoTerms = {
+    init: function(input){
+    this.queryAllGoTerms(input)
+},
+    queryAllGoTerms: function(){
+           return  ["SELECT DISTINCT ?goTerm ?goTermLabel ?goID where { ?goTerm wdt:P686 ?goID.",
+            "SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\". ?goTerm rdfs:label ?goTermLabel.}",
+            "FILTER(CONTAINS(LCASE(?goTermLabel), \"" + input + "\"))}"].join(" ");
+    }
+
 
 };
 
