@@ -207,6 +207,81 @@ $(document).ready(function () {
         }
     };
     goForm.init();
+
+
+    //////Evidence Code Form Module//////
+
+    var evidenceCodeForm = {
+        endpoint: "https://query.wikidata.org/sparql?format=json&query=",
+        init: function () {
+            this.cacheDOM();
+            this.evidenceCodesAC(this.$mfForm);
+            this.evidenceCodesAC(this.$bpForm);
+            this.evidenceCodesAC(this.$ccForm);
+
+        },
+        cacheDOM: function () {
+            this.$evidenceForm = $(".main-go-form");
+            this.$mfForm = this.$evidenceForm.find("#mfecform");
+            this.$bpForm = this.$evidenceForm.find("#bpecform");
+            this.$ccForm = this.$evidenceForm.find("#ccecform");
+
+        },
+        evidenceCodesAC: function (form_element) {
+            form_element.autocomplete({
+                delay: 900,
+                autoFocus: true,
+                minLength: 3,
+                appendTo: null,
+                source: function (request, response) {
+                    $.ajax({
+                        type: "GET",
+                        url: goForm.endpoint + [
+                            "select distinct ?evidence_code ?evidence_codeLabel ?alias where {",
+                            "?evidence_code wdt:P31 wd:Q23173209. ?evidence_code skos:altLabel ?alias.",
+                            "filter (lang(?alias) = \"en\") SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\" .}}"
+                        ].join(" "),
+
+
+                        datatype: 'json',
+                        success: function (data) {
+                            var data_array = [];
+                            var data_hash = {};
+                            $.each(data['results']['bindings'], function (key, element) {
+                                var wdid = element['evidence_code']['value'].split("/");
+                                var orgqid = wdid.slice(-1)[0];
+                                data_hash = {
+                                    'label': element['alias']['value'],
+                                    'value': orgqid,
+                                    'alias': element['evidence_codeLabel']['value'],
+                                    'qid': orgqid
+                                };
+                                data_array.push(data_hash);
+                            });
+                            response(data_array);
+                        }
+                    });
+                    console.log(request.term);
+                },
+                select: function (event, ui) {
+                    $('form').each(function () {
+                        this.reset()
+                    });
+                    console.log(ui.item.id);
+                }
+            })
+                .autocomplete("instance")._renderItem = function (ul, item) {
+                return $("<li>")
+                    .append("<div class='main-data' style=\"border-bottom: solid black 1px\"><strong><u>" + item.label +
+                    "</u></strong><br>Evidence Code:" + item.id + "<br>Wikidata: " + item.qid + "</div>")
+                    .appendTo(ul);
+            };
+        }
+    };
+    evidenceCodeForm.init();
+
+
+    
 //////////////////////////////////////////End form modules//////////////////////////////////////////////////////////////
 
 
