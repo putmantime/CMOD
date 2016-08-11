@@ -25,6 +25,7 @@ $(document).ready(function () {
                 minLength: 0,
                 source: getOrgs(),
                 autoFocus: true,
+
                 select: function (event, ui) {
 
                     $('form').each(function () {
@@ -62,7 +63,8 @@ $(document).ready(function () {
                     item.label + "</strong></u></i><br>Taxid: " + item.taxid + "<br>Wikidata: " +
                     item.qid + "</div>")
                     .appendTo(ul);
-            };
+            }
+
         }
     };
     orgForm.init();
@@ -143,17 +145,24 @@ $(document).ready(function () {
         endpoint: "https://query.wikidata.org/sparql?format=json&query=",
         init: function () {
             this.cacheDOM();
-            this.goTermsAC();
+            this.goTermsAC(this.$mfForm);
+            this.goTermsAC(this.$bpForm);
+            this.goTermsAC(this.$ccForm);
+
         },
         cacheDOM: function () {
-            this.$mfForm = $("#molfuncform");
-
+            this.$goTermForm = $(".main-go-form");
+            this.$mfForm = this.$goTermForm.find("#molfuncform");
+            this.$bpForm = this.$goTermForm.find("#bioprocform");
+            this.$ccForm = this.$goTermForm.find("#celcompform");
 
         },
-        goTermsAC: function () {
-            this.$mfForm.autocomplete({
+        goTermsAC: function (form_element) {
+            form_element.autocomplete({
                 delay: 900,
-                minlength: 3,
+                autoFocus: true,
+                minLength: 3,
+                appendTo: null,
                 source: function (request, response) {
                     $.ajax({
                         type: "GET",
@@ -165,11 +174,13 @@ $(document).ready(function () {
                             var data_array = [];
                             var data_hash = {};
                             $.each(data['results']['bindings'], function (key, element) {
+                                var wdid = element['goTerm']['value'].split("/");
+                                var orgqid = wdid.slice(-1)[0];
                                 data_hash = {
                                     'label': element['goTermLabel']['value'],
-                                    'value': element['goTermLabel']['value'] + ": " + element['goID']['value'],
+                                    'value': orgqid,
                                     'id': element['goID']['value'],
-                                    'qid': element['goTerm']['value']
+                                    'qid': orgqid
                                 };
                                 data_array.push(data_hash);
                             });
@@ -260,12 +271,12 @@ $(document).ready(function () {
             //this.$ul.html(Mustache.render(this.template, data));
 
             this.$geneD.html(
-                "<div class='main-data'> <h4>Gene Name:</h4>     " + data.gene[0] + "</div>" +
-                "<div class='main-data'> <h4>Entrez ID:</h4>     " + data.gene[1] + "</div>" +
-                "<div class='main-data'> <h4>Wikidata ID:</h4>   " + data.gene[2] + "</div>" +
-                "<div class='main-data'> <h4>Locus Tag:</h4>     " + data.gene[3] + "</div>" +
-                "<div class='main-data'> <h4>Genomic Start:</h4> " + data.gene[4] + "</div>" +
-                "<div class='main-data'> <h4>Genomic End:</h4>   " + data.gene[5] + "</div>"
+                "<div class='main-data'> <h5>Gene Name:    </h5>     " + data.gene[0] + "</div>" +
+                "<div class='main-data'> <h5>Entrez ID:    </h5>     " + data.gene[1] + "</div>" +
+                "<div class='main-data'> <h5>Wikidata ID:  </h5>   " + data.gene[2] + "</div>" +
+                "<div class='main-data'> <h5>Locus Tag:    </h5>     " + data.gene[3] + "</div>" +
+                "<div class='main-data'> <h5>Genomic Start:</h5> " + data.gene[4] + "</div>" +
+                "<div class='main-data'> <h5>Genomic End:  </h5>   " + data.gene[5] + "</div>"
             );
 
 
@@ -273,6 +284,7 @@ $(document).ready(function () {
 
 
     };
+    5
 //////render the protein dat in the Protein box///////
     var proteinData = {
         init: function (protein) {
@@ -296,10 +308,10 @@ $(document).ready(function () {
 
             //this.$ul.html(Mustache.render(this.template, data));
             this.$protD.html(
-                "<div class='main-data'><h4>Protein Name:</h4>" + data.protein[0] + "</div>" +
-                "<div class='main-data'><h4>UniProt ID:</h4>" + data.protein[1] + "</div>" +
-                "<div class='main-data'><h4>Wikidata ID:</h4>" + data.protein[2] + "</div>" +
-                "<div class='main-data'><h4>RefSeq ID:</h4>" + data.protein[3] + "</div>"
+                "<div class='main-data'><h5>Protein Name: </h5>" + data.protein[0] + "</div>" +
+                "<div class='main-data'><h5>UniProt ID:   </h5>" + data.protein[1] + "</div>" +
+                "<div class='main-data'><h5>Wikidata ID:  </h5>" + data.protein[2] + "</div>" +
+                "<div class='main-data'><h5>RefSeq ID:    </h5>" + data.protein[3] + "</div>"
             );
         }
 
@@ -417,3 +429,60 @@ $(document).ready(function () {
 });
 
 
+//var goForm = {
+//    endpoint: "https://query.wikidata.org/sparql?format=json&query=",
+//    init: function () {
+//        this.cacheDOM();
+//        this.goTermsAC();
+//    },
+//    cacheDOM: function () {
+//        this.$mfForm = $("#molfuncform");
+//
+//
+//    },
+//    goTermsAC: function () {
+//        this.$mfForm.autocomplete({
+//            delay: 900,
+//            minlength: 3,
+//            source: function (request, response) {
+//                $.ajax({
+//                    type: "GET",
+//                    url: goForm.endpoint + ["SELECT DISTINCT ?goTerm ?goTermLabel ?goID WHERE { ?goTerm wdt:P686 ?goID.",
+//                        "SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\". ?goTerm rdfs:label ?goTermLabel.}",
+//                        "FILTER(CONTAINS(LCASE(?goTermLabel), \"" + request.term + "\"))}"].join(" "),
+//                    datatype: 'json',
+//                    success: function (data) {
+//                        var data_array = [];
+//                        var data_hash = {};
+//                        $.each(data['results']['bindings'], function (key, element) {
+//                            data_hash = {
+//                                'label': element['goTermLabel']['value'],
+//                                'value': element['goTerm']['value'],
+//                                'id': element['goID']['value'],
+//                                'qid': element['goTerm']['value']
+//                            };
+//                            data_array.push(data_hash);
+//                        });
+//                        response(data_array);
+//                    }
+//                });
+//                console.log(request.term);
+//            },
+//            select: function (event, ui) {
+//                $('form').each(function () {
+//                    this.reset()
+//                });
+//                console.log(ui.item.id);
+//
+//
+//            }
+//        })
+//            .autocomplete("instance")._renderItem = function (ul, item) {
+//            return $("<li>")
+//                .append("<div class='main-data' style=\"border-bottom: solid black 1px\"><strong><u>" + item.label +
+//                "</u></strong><br>Gene Ontology ID:" + item.id + "<br>Wikidata: " + item.qid + "</div>")
+//                .appendTo(ul);
+//        };
+//    }
+//};
+//goForm.init();
