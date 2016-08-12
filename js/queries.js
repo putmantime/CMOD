@@ -113,29 +113,29 @@ var getGOTerms = function (uniprot, callBackonSuccess) {
         "FILTER (LANG(?goclass_label) = \"en\")}"
 
     ].join(" ");
-    console.log(endpoint + goQuery);
+    //console.log(endpoint + goQuery);
 
     $.ajax({
         type: "GET",
         url: endpoint + goQuery,
         dataType: 'json',
         success: function (data) {
-            console.log(data);
+            //console.log(data);
             var mf = [];
             var bp = [];
             var cc = [];
 
             $.each(data['results']['bindings'], function (key, element) {
                 if (element['goclass']['value'] == 'http://www.wikidata.org/entity/Q2996394') {
-                    console.log(element['goclass_label']['value']);
+                    //console.log(element['goclass_label']['value']);
                     bp.push(element);
                 }
                 if (element['goclass']['value'] == 'http://www.wikidata.org/entity/Q14860489') {
-                    console.log(element);
+                    //console.log(element);
                     mf.push(element);
                 }
                 if (element['goclass']['value'] == 'http://www.wikidata.org/entity/Q5058355') {
-                    console.log(element);
+                    //console.log(element);
                     cc.push(element);
                 }
 
@@ -144,7 +144,7 @@ var getGOTerms = function (uniprot, callBackonSuccess) {
             goTerms['molecularFunction'] = mf;
             goTerms['biologicalProcess'] = bp;
             goTerms['cellularComponent'] = cc;
-            console.log(bp);
+            //console.log(bp);
             callBackonSuccess(goTerms);
         }
     });

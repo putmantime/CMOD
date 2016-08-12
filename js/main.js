@@ -1,6 +1,6 @@
 $(document).ready(function () {
 //////////////////////////////////////////Begin Global variables////////////////////////////////////////////////////////
-    console.log("hello");
+
     var currentTaxa = {
         'Name': 'Chlamydia trachomatis 434/BU',
         'Taxid': '471472',
@@ -187,13 +187,13 @@ $(document).ready(function () {
                             response(data_array);
                         }
                     });
-                    console.log(request.term);
+                    //console.log(request.term);
                 },
                 select: function (event, ui) {
                     $('form').each(function () {
                         this.reset()
                     });
-                    console.log(ui.item.id);
+                    //console.log(ui.item.id);
 
 
                 }
@@ -261,13 +261,13 @@ $(document).ready(function () {
                             response(data_array);
                         }
                     });
-                    console.log(request.term);
+                    //console.log(request.term);
                 },
                 select: function (event, ui) {
                     $('form').each(function () {
                         this.reset()
                     });
-                    console.log(ui.item.id);
+                    //console.log(ui.item.id);
                 }
             })
                 .autocomplete("instance")._renderItem = function (ul, item) {
@@ -281,7 +281,6 @@ $(document).ready(function () {
     evidenceCodeForm.init();
 
 
-    
 //////////////////////////////////////////End form modules//////////////////////////////////////////////////////////////
 
 
@@ -359,7 +358,6 @@ $(document).ready(function () {
 
 
     };
-    5
 //////render the protein dat in the Protein box///////
     var proteinData = {
         init: function (protein) {
@@ -402,7 +400,7 @@ $(document).ready(function () {
         goTermData: function (uniprot) {
 
             getGOTerms(uniprot, function (goTerms) {
-                console.log(goTerms);
+                //console.log(goTerms);
                 goData.render(goTerms);
             });
 
@@ -421,15 +419,15 @@ $(document).ready(function () {
             var cc = this.$cc;
             $.each(goTerms['molecularFunction'], function (key, element) {
                 mf.append(goData.goInput(element['goterm_label']['value'], element['goID']['value']));
-                console.log("mf" + element['goterm_label']['value']);
+                //console.log("mf" + element['goterm_label']['value']);
             });
             $.each(goTerms['biologicalProcess'], function (key, element) {
                 bp.append(goData.goInput(element['goterm_label']['value'], element['goID']['value']));
-                console.log("bp" + element['goterm_label']['value']);
+                //console.log("bp" + element['goterm_label']['value']);
             });
             $.each(goTerms['cellularComponent'], function (key, element) {
                 cc.append(goData.goInput(element['goterm_label']['value'], element['goID']['value']));
-                console.log("cc" + element['goterm_label']['value']);
+                //console.log("cc" + element['goterm_label']['value']);
             });
 
         },
@@ -480,6 +478,82 @@ $(document).ready(function () {
 
     };
 /////////////////////////////////////////////////End Jbrowse module/////////////////////////////////////////////////////
+/////////////////////////////////////////////////Begin Wikidata API/////////////////////////////////////////////////////
+
+
+    var WDAPI = {
+        init: function (user, password) {
+            this.server = "www.wikidata.org";
+            this.user = user;
+            this.password = password;
+            this.edit_token = '';
+            this.token_renew_period = 1800;
+            this.url = "https://www.wikidata.org/w/api.php?action=login&format=json&lgname=" +
+                this.user + "&lgpassword=" + this.password;
+            this.getEditCredentials();
+
+        },
+        getEditCredentials: function () {
+            $.ajax({
+                url: 'https://www.wikidata.org/w/api.php',
+                data: {
+                    action: 'clientlogin',
+                    format: 'json',
+                    username: "MicrobeBot",
+                    password: "tK4CdCQv4IeU"
+
+
+                    //origin: 'https://www.mediawiki.org'
+                },
+                xhrFields: {
+                    withCredentials: true
+                },
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data);// will probably use 'json' now that I'm server-side
+                }
+            });
+
+            //api.php?action=clientlogin&username=Example&password=ExamplePassword&loginreturnurl=http://example.org/&logintoken=123ABC
+            //$.ajax({
+            //    url: "https://en.wikipedia.org/w/api.php",
+            //    type: "POST",
+            //    jsonp: "callback",
+            //    dataType: 'jsonp',
+            //    data: {
+            //        action: "login",
+            //        lgname: "MicrobeBot",
+            //        lgpassword: "tK4CdCQv4IeU",
+            //        format: "json"
+            //    },
+            //    xhrFields: {withCredentials: true},
+            //    success: function(data,success,xhr){
+            //        console.log(data);
+            //        console.log("ok good");
+            //        console.log(xhr.url);
+            //    }
+            //
+            //});
+            $.ajax({
+                type: "POST",
+                url: this.url,
+                datatype: 'json',
+                success: function (data, status, xhr) {
+                    console.log(xhr);
+                }
+
+            });
+        }
+
+
+    };
+
+    WDAPI.init("MicrobeBot", "tK4CdCQv4IeU");
+
+
+/////////////////////////////////////////////////End Wikidata API///////////////////////////////////////////////////////
+
+
 ////////////////////////////////////////////////////Begin preload///////////////////////////////////////////////////////
     jbrowse.init('471472', 'NC_010287.1', ':100000..200000&tracks=genes_canvas_mod', 'Chlamydia trachomatis 434/BU');
     orgData.init(currentTaxa);
@@ -504,60 +578,3 @@ $(document).ready(function () {
 });
 
 
-//var goForm = {
-//    endpoint: "https://query.wikidata.org/sparql?format=json&query=",
-//    init: function () {
-//        this.cacheDOM();
-//        this.goTermsAC();
-//    },
-//    cacheDOM: function () {
-//        this.$mfForm = $("#molfuncform");
-//
-//
-//    },
-//    goTermsAC: function () {
-//        this.$mfForm.autocomplete({
-//            delay: 900,
-//            minlength: 3,
-//            source: function (request, response) {
-//                $.ajax({
-//                    type: "GET",
-//                    url: goForm.endpoint + ["SELECT DISTINCT ?goTerm ?goTermLabel ?goID WHERE { ?goTerm wdt:P686 ?goID.",
-//                        "SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\". ?goTerm rdfs:label ?goTermLabel.}",
-//                        "FILTER(CONTAINS(LCASE(?goTermLabel), \"" + request.term + "\"))}"].join(" "),
-//                    datatype: 'json',
-//                    success: function (data) {
-//                        var data_array = [];
-//                        var data_hash = {};
-//                        $.each(data['results']['bindings'], function (key, element) {
-//                            data_hash = {
-//                                'label': element['goTermLabel']['value'],
-//                                'value': element['goTerm']['value'],
-//                                'id': element['goID']['value'],
-//                                'qid': element['goTerm']['value']
-//                            };
-//                            data_array.push(data_hash);
-//                        });
-//                        response(data_array);
-//                    }
-//                });
-//                console.log(request.term);
-//            },
-//            select: function (event, ui) {
-//                $('form').each(function () {
-//                    this.reset()
-//                });
-//                console.log(ui.item.id);
-//
-//
-//            }
-//        })
-//            .autocomplete("instance")._renderItem = function (ul, item) {
-//            return $("<li>")
-//                .append("<div class='main-data' style=\"border-bottom: solid black 1px\"><strong><u>" + item.label +
-//                "</u></strong><br>Gene Ontology ID:" + item.id + "<br>Wikidata: " + item.qid + "</div>")
-//                .appendTo(ul);
-//        };
-//    }
-//};
-//goForm.init();
